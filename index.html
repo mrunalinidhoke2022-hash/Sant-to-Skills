@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sant to Skill – Level Quest</title>
+<style>
+ :root{--bg:#edf4ff;--bg-strong:#dfeaff;--card:rgba(255,255,255,.92);--card-strong:#ffffff;--ink:#13233d;--mut:#5f6e87;--pri:#ff9f43;--pri2:#2b4ed8;--pri-soft:#edf2ff;--ok:#1ab87a;--bad:#df4f5e;--line:#dfe6f5;--shadow:0 18px 45px rgba(30,64,175,.12);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d172e;--bg-strong:#141f3d;--card:rgba(18,27,47,.88);--card-strong:#17233f;--ink:#edf3ff;--mut:#a7b7d5;--pri:#ffb454;--pri2:#8fa9ff;--pri-soft:rgba(143,169,255,.12);--ok:#40d392;--bad:#ff7d8e;--line:#243455;--shadow:0 20px 48px rgba(15,23,42,.4)}}
+:root[data-theme="dark"]{--bg:#0d172e;--bg-strong:#141f3d;--card:rgba(18,27,47,.88);--card-strong:#17233f;--ink:#edf3ff;--mut:#a7b7d5;--pri:#ffb454;--pri2:#8fa9ff;--pri-soft:rgba(143,169,255,.12);--ok:#40d392;--bad:#ff7d8e;--line:#243455;--shadow:0 20px 48px rgba(15,23,42,.4)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#eff5ff 0%,#eaf0ff 20%,var(--bg) 60%,var(--bg-strong) 100%);color:var(--ink);font:16px/1.55 Inter,"Segoe UI",system-ui,-apple-system,sans-serif;position:relative}
+body::before{content:"";position:absolute;inset:0 0 auto 0;height:260px;background:linear-gradient(180deg,#1a2f6f 0%,#2647a3 30%,rgba(38,71,163,0) 100%);z-index:0;pointer-events:none}
+#main{position:relative;z-index:1}
+.wrap{max-width:760px;margin:0 auto;padding:18px 16px 120px;position:relative;z-index:1}
+button,input{font:inherit}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(2rem,4vw,2.6rem);line-height:1.1;margin:.2em 0}
+h2{font-size:1.2rem;line-height:1.3;margin:.3em 0}
+.card,.hero-panel,.module-card,.dashboard-card,.status-box,.lesson-shell,.auth-shell{background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);backdrop-filter:blur(18px)}
+.card{padding:18px;margin:14px 0}
+.hero-panel{padding:18px 18px 14px;background:linear-gradient(135deg,#1d3d8a 0%,#2b56b8 48%,#233a7e 100%);color:#f3f7ff;border:1px solid rgba(255,255,255,.14);margin:14px 0;box-shadow:0 20px 45px rgba(27,51,124,.35)}
+.hero-panel h1,.hero-panel p{color:#f5f8ff}
+.hero-top,.hero-title,.section-header,.lesson-meta,.lesson-cta,.panel-row,.auth-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.hero-title{align-items:flex-start;margin:12px 0 10px}
+.eyebrow{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#eaf3ff}
+.ghost-button,.btn,.opt,.lv,.who,.lesson-card,.filter-chip,.secondary-action{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease}
+.ghost-button,.btn,.opt,.lv,.who,.lesson-card,.secondary-action{cursor:pointer}
+.ghost-button{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);border-radius:12px;padding:8px 12px;color:#fff;font-weight:700}
+.btn{display:block;width:100%;border:0;border-radius:14px;padding:14px 16px;font:inherit;font-weight:800;background:linear-gradient(135deg,var(--pri) 0%,#ffa95b 100%);color:#1d1400;cursor:pointer;margin-top:12px;box-shadow:0 12px 24px rgba(255,159,67,.25)}
+.btn.alt,.secondary-action{background:transparent;color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.btn:hover,.opt:hover,.lv:hover,.lesson-card:hover,.who:hover,.secondary-action:hover{transform:translateY(-1px)}
+.opt,.lv{display:block;width:100%;text-align:left;background:var(--card-strong);color:var(--ink);border:2px solid var(--line);border-radius:18px;padding:14px 16px;margin:10px 0;font:inherit;cursor:pointer}
+.opt.good{border-color:var(--ok);background:linear-gradient(180deg,rgba(26,184,122,.12),rgba(26,184,122,.04))}
+.opt.bad{border-color:var(--bad);background:linear-gradient(180deg,rgba(223,79,94,.12),rgba(223,79,94,.04))}
+.lv{display:flex;gap:12px;align-items:center;padding:12px 14px;background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(245,248,255,.9));border:1px solid var(--line)}
+.lv[disabled]{opacity:.52;cursor:not-allowed}
+.lv .n{flex:none;width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--pri2),#5d7bf5);color:#fff;display:grid;place-items:center;font-weight:800;box-shadow:0 8px 16px rgba(43,78,216,.25)}
+.lv small{color:var(--mut);display:block}.lv .st{margin-left:auto;white-space:nowrap;font-weight:700}
+.tag{display:inline-block;background:var(--pri-soft);color:var(--pri2);font-weight:800;font-size:.74rem;border-radius:20px;padding:5px 10px;margin:0 6px 6px 0}
+.steps{display:flex;gap:8px;font-size:.78rem;color:var(--mut);margin:8px 0 12px}
+.steps span{flex:1;text-align:center;padding:6px 6px;border-radius:10px;background:var(--line);font-weight:700}
+.steps .on{background:linear-gradient(135deg,var(--pri),#ffb866);color:#1d1400}
+.vl{border-left:4px solid var(--pri);padding:10px 12px;margin:12px 0;background:linear-gradient(135deg,rgba(255,159,67,.08),rgba(43,78,216,.04));border-radius:12px}
+.vl .mr{font-size:1.3rem;font-weight:800;line-height:1.3}.vl .en{color:var(--mut);font-size:.95rem}
+.box{background:linear-gradient(135deg,rgba(43,78,216,.08),rgba(255,159,67,.04));border:1px solid rgba(43,78,216,.08);border-radius:16px;padding:12px 14px;margin-top:12px}
+.big{font-size:3rem;text-align:center;margin:8px 0}
+.bar{height:10px;background:rgba(143,169,255,.18);border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pri),#ffca75);border-radius:inherit;transition:width .3s ease}
+.back{background:none;border:0;color:var(--pri2);font:inherit;font-weight:800;cursor:pointer;padding:4px 0}
+.foot{text-align:center;color:var(--mut);font-size:.82rem;margin:18px 0 0}
+.lang{display:flex;gap:6px;justify-content:flex-end;margin-bottom:8px}.lang button{border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:4px 12px;font:inherit;font-size:.82rem;cursor:pointer}.lang button.on{background:linear-gradient(135deg,var(--pri),#ffb866);color:#1d1400;border-color:transparent;font-weight:800}
+.lr{display:flex;justify-content:flex-end;margin-bottom:8px}
+.lp{display:flex;flex-direction:column;align-items:center;width:96px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:2px;box-shadow:var(--shadow)}
+.lp button{border:0;background:none;color:var(--pri2);font-size:.8rem;cursor:pointer;line-height:1;padding:4px 14px;font-weight:700}
+.lw{height:34px;overflow:hidden;width:100%}.li{transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.li div{height:34px;line-height:34px;text-align:center;font-weight:700;font-size:.9rem}
+.ub{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding:2px 0}
+.who{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);color:#fff;border-radius:999px;padding:5px 14px 5px 5px;font:inherit;cursor:pointer;text-align:left;box-shadow:0 10px 20px rgba(12,26,60,.16)}
+.who small{display:block;color:#ffd36b;font-weight:600}
+.av{width:44px;height:44px;border-radius:50%;object-fit:cover;border:3px solid #ffd36b;background:linear-gradient(135deg,#2d5ee6,#1b3f8f);color:#fff;display:grid;place-items:center;font-weight:800;font-size:1.2rem;flex:none}
+.av.big{width:110px;height:110px;margin:0 auto 12px;font-size:2.6rem}
+.in{display:block;width:100%;padding:13px 14px;margin:8px 0;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)}
+.in:focus{outline:none;border-color:var(--pri);box-shadow:0 0 0 4px rgba(255,159,67,.18)}
+.otpi{text-align:center;font-size:1.6rem;letter-spacing:.5em}.otp{font-size:1.7rem;font-weight:800;letter-spacing:.3em;text-align:center;color:var(--pri2)}
+.err{color:var(--bad);font-weight:700;min-height:1.4em;margin:4px 0}
+.tabs{display:flex;background:var(--line);border-radius:14px;padding:4px;margin-bottom:12px}
+.tabs button{flex:1;border:0;border-radius:10px;padding:10px;font:inherit;font-weight:800;background:none;color:var(--ink);cursor:pointer}
+.tabs .on{background:linear-gradient(135deg,var(--pri),#ffb866);color:#1d1400}
+.avw{display:block;text-align:center;cursor:pointer;margin-bottom:6px}.avw small{display:block;color:var(--mut)}
+.sec{font-size:.8rem;color:var(--mut);margin:10px 0 0}
+.stage{height:78vh;display:grid;place-items:center;align-content:center;perspective:1000px;text-align:center;color:var(--ink)}
+.book{position:relative;width:150px;height:200px;transform-style:preserve-3d;transform:rotateX(60deg) rotateZ(-25deg);animation:tilt 3s ease-in-out forwards}
+@keyframes tilt{to{transform:rotateX(38deg) rotateZ(0deg) translateY(20px)}}
+.cover,.pg{position:absolute;inset:0;transform-origin:left center;border-radius:4px 10px 10px 4px}
+.pg{background:#fff8e4;border:1px solid #e6d3a3}
+.cover{background:linear-gradient(135deg,#1b3f8f,#2c5fd0);border:3px solid #ffd36b;display:grid;place-items:center;color:#ffd36b;font-size:2.6rem;font-weight:800;animation:op 1.8s .5s ease-in-out forwards;box-shadow:6px 8px 20px rgba(0,0,0,.35)}
+.p2{animation:op2 1.8s .8s ease-in-out forwards}
+@keyframes op{to{transform:rotateY(-170deg)}}@keyframes op2{to{transform:rotateY(-155deg)}}
+.flm{position:absolute;left:55px;top:60px;width:42px;height:64px;background:radial-gradient(ellipse at 50% 72%,#fff6b8,#ffb01f 45%,#f08a1c 70%,transparent 72%);border-radius:50% 50% 50% 50%/62% 62% 38% 38%;opacity:0;animation:rise 1.5s 1.7s ease-out forwards,fl .25s 1.7s infinite alternate;filter:drop-shadow(0 0 14px #ffb01f)}
+@keyframes rise{from{opacity:0;transform:translateZ(0)}to{opacity:1;transform:translateZ(120px)}}
+@keyframes fl{from{transform:translateY(0) scale(1)}to{transform:translateY(-8px) scale(1.06)}}
+.app-shell{display:grid;gap:14px}
+.stats-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
+.stat-card{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:12px 14px;color:#edf4ff;display:flex;flex-direction:column;gap:4px}
+.stat-card small{color:rgba(237,244,255,.72);font-size:.74rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.stat-card strong{font-size:1.4rem;line-height:1.2}
+.stat-card span{font-size:.85rem;color:rgba(237,244,255,.75)}
+.dashboard-grid{display:grid;grid-template-columns:1.4fr .9fr;gap:14px}
+.dashboard-card{padding:18px}
+.section-header{margin-bottom:12px}
+.section-header h2{margin:0}
+.pill{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:5px 10px;background:var(--pri-soft);color:var(--pri2);font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.lesson-card{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border-radius:18px;background:var(--card-strong);border:1px solid var(--line);text-align:left;color:var(--ink)}
+.lesson-card.locked{opacity:1;background:#f0f3f9}
+.lesson-index{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--pri2),#5d7bf5);color:#fff;font-weight:800;box-shadow:0 8px 16px rgba(43,78,216,.22)}
+.lesson-card.locked .lesson-index{background:linear-gradient(135deg,#a9b8d6,#8798bb)}
+.lesson-copy{flex:1;min-width:0}
+.lesson-copy h3{margin:0 0 4px;font-size:1rem;line-height:1.35}
+.lesson-copy p{margin:0;color:var(--mut);font-size:.85rem}
+.lesson-score{font-size:.8rem;font-weight:800;color:var(--pri2)}
+.lesson-card.locked .lesson-score{color:var(--mut)}
+.status-box{padding:14px;border-radius:18px;background:linear-gradient(135deg,rgba(38,71,163,.08),rgba(255,159,67,.07));border:1px solid rgba(43,78,216,.08)}
+.status-box strong{display:block;font-size:1.35rem;margin:4px 0 0}
+.badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.badge{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;border:1px solid rgba(43,78,216,.12);background:rgba(255,255,255,.7);font-size:.76rem;font-weight:700}
+.lesson-shell{padding:18px;margin-top:14px;display:grid;gap:12px}
+.lesson-hero{background:linear-gradient(135deg,#ecf2ff 0%,#fef5ea 100%);border:1px solid rgba(43,78,216,.06);border-radius:20px;padding:16px}
+.lesson-hero h2{margin:8px 0 0;font-size:1.45rem}
+.lesson-hero p{margin:8px 0 0;color:var(--mut);font-weight:600}
+.lesson-cta{margin-top:4px}
+.secondary-action{padding:10px 16px;border-radius:12px;font-weight:800;background:var(--card-strong)}
+@media (max-width:620px){.dashboard-grid,.stats-grid{grid-template-columns:1fr}.hero-top,.hero-title,.section-header,.lesson-meta,.lesson-cta{flex-direction:column;align-items:flex-start}.wrap{padding-left:12px;padding-right:12px}.card,.dashboard-card,.hero-panel,.lesson-shell{border-radius:18px}}}
+@keyframes fl{to{scale:1.08 .94}}
+.it{margin:60px 0 0;color:var(--pri2);opacity:0;animation:fade 1s 2s forwards}.it2{color:var(--mut);opacity:0;animation:fade 1s 2.6s forwards}
+@keyframes fade{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition:none!important}}
+
+.scene-bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;perspective:1200px;opacity:.72}
+.scene-glow{position:absolute;width:min(64vw,760px);aspect-ratio:1;border-radius:50%;right:-15vw;top:-28vw;background:radial-gradient(circle,rgba(255,190,99,.28),rgba(101,139,255,.14) 42%,transparent 72%);filter:blur(10px);animation:glow-drift 12s ease-in-out infinite alternate}
+.scene-art{position:absolute;width:min(47vw,560px);height:auto;right:1.5vw;top:8vh;overflow:visible;filter:drop-shadow(0 28px 50px rgba(11,30,81,.3));transform-style:preserve-3d;animation:saint-float 8s ease-in-out infinite}
+.scene-art .saint-body{transform-origin:50% 50%;animation:saint-turn 12s ease-in-out infinite}
+.scene-art .halo{transform-origin:250px 190px;animation:halo-pulse 5s ease-in-out infinite}
+.scene-art .floating-book{transform-origin:250px 475px;animation:book-hover 7s ease-in-out infinite}
+.scene-art .sparkle{transform-box:fill-box;transform-origin:center;animation:sparkle 3.8s ease-in-out infinite alternate}
+.scene-art .sparkle:nth-of-type(2){animation-delay:1.1s}.scene-art .sparkle:nth-of-type(3){animation-delay:2s}
+@keyframes saint-float{0%,100%{transform:translate3d(0,0,0) rotateY(-7deg) rotateX(2deg)}50%{transform:translate3d(0,-14px,18px) rotateY(5deg) rotateX(-1deg)}}
+@keyframes glow-drift{from{transform:translate3d(-3%,0,0) scale(.95)}to{transform:translate3d(3%,5%,0) scale(1.08)}}
+@keyframes saint-turn{0%,100%{transform:rotateY(-2deg)}50%{transform:rotateY(3deg)}}
+@keyframes halo-pulse{0%,100%{opacity:.78;transform:scale(.98)}50%{opacity:1;transform:scale(1.035)}}
+@keyframes book-hover{0%,100%{transform:translateY(0) rotateX(0)}50%{transform:translateY(-8px) rotateX(4deg)}}
+@keyframes sparkle{from{opacity:.35;transform:scale(.75) rotate(-12deg)}to{opacity:1;transform:scale(1.12) rotate(12deg)}}
+body[data-screen="auth"] .scene-bg{opacity:.88}
+body[data-screen="auth"] .scene-art{width:min(49vw,600px);right:0;top:8vh;opacity:.78}
+body[data-screen="auth"] .card{background:rgba(255,255,255,.82);backdrop-filter:blur(22px)}
+body[data-screen="home"] .scene-bg{opacity:.58}
+body[data-screen="home"] .scene-art{width:min(38vw,450px);right:0;top:15vh;opacity:.7}
+body[data-screen="home"] .hero-panel,body[data-screen="home"] .dashboard-card{backdrop-filter:blur(18px)}
+body[data-screen="lesson"] .scene-bg{opacity:.2}
+body[data-screen="profile"] .scene-bg,body[data-screen="otp"] .scene-bg{opacity:.5}
+.auth-intro{max-width:640px;margin:0 auto 14px;padding:10px 8px 2px;color:#fff;position:relative}
+.auth-intro h1{font-size:clamp(2rem,5vw,2.8rem);text-shadow:0 6px 24px rgba(8,20,62,.24)}
+.auth-intro p{max-width:500px;color:rgba(255,255,255,.82);margin:8px 0 0}
+.card,.dashboard-card,.lesson-shell{background:var(--card-strong)}
+.vl .mr{font-size:1.4rem;line-height:1.55;color:var(--ink)}
+.vl .en{font-size:1.06rem;line-height:1.6;color:var(--ink)}
+.scene-art{pointer-events:none}
+.library-intro{margin:0 0 14px;color:var(--mut);font-size:1rem;line-height:1.65}
+.library-tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:thin}
+.library-tab{flex:0 0 auto;min-height:44px;border:1px solid var(--line);border-radius:999px;padding:9px 15px;background:var(--card-strong);color:var(--ink);font-weight:800;cursor:pointer}
+.library-tab[aria-selected="true"]{background:var(--pri2);border-color:var(--pri2);color:#fff;box-shadow:0 8px 18px rgba(43,78,216,.2)}
+.library-group-label{font-size:.8rem;font-weight:800;color:var(--mut);letter-spacing:.08em;text-transform:uppercase;margin:8px 0 4px}
+.library-level{margin:14px 0;padding:16px;background:var(--card-strong);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.library-level h3{margin:0;font-size:1.1rem;color:var(--ink)}
+.library-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.verse-pair{display:block;width:100%;text-align:left;margin:10px 0;padding:15px;border-radius:16px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.verse-pair:hover,.verse-pair:focus-visible{border-color:var(--pri2);outline:3px solid rgba(43,78,216,.16)}
+.verse-pair .verse-text{display:block;font-size:1.28rem;font-weight:800;line-height:1.65}
+.verse-pair .meaning-text{display:block;margin-top:6px;color:var(--ink);font-size:1rem;line-height:1.65}
+.verse-pair .tap-hint{display:block;margin-top:8px;color:var(--pri2);font-size:.82rem;font-weight:800}
+.speech-controls{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.speech-controls .secondary-action{min-height:44px}
+.speech-status{min-height:1.6em;padding:8px 10px;border-radius:10px;background:var(--pri-soft);color:var(--ink);font-size:.92rem;font-weight:700}
+.speech-status:empty{display:none}
+body[data-screen="auth"] .card{background:var(--card-strong)}
+body[data-screen="auth"] .in{background:var(--card-strong);color:var(--ink)}
+body[data-screen="auth"] .sec{color:var(--ink);font-size:.95rem;line-height:1.65}
+.auth-intro p{color:#fff;text-shadow:0 1px 4px rgba(9,20,55,.55)}
+.scene-bg{opacity:.18}
+.scene-glow{opacity:.45}
+body[data-screen="auth"] .scene-bg,body[data-screen="home"] .scene-bg,body[data-screen="library"] .scene-bg,body[data-screen="lesson"] .scene-bg,body[data-screen="profile"] .scene-bg,body[data-screen="otp"] .scene-bg{opacity:.2}
+body[data-screen="auth"] .scene-art,body[data-screen="home"] .scene-art,body[data-screen="library"] .scene-art,body[data-screen="lesson"] .scene-art,body[data-screen="profile"] .scene-art,body[data-screen="otp"] .scene-art{opacity:.16}
+body[data-screen="auth"] .scene-glow,body[data-screen="home"] .scene-glow,body[data-screen="library"] .scene-glow,body[data-screen="lesson"] .scene-glow,body[data-screen="profile"] .scene-glow,body[data-screen="otp"] .scene-glow{opacity:.3}
+.card,.dashboard-card,.lesson-shell,.library-level{background:var(--card-strong);backdrop-filter:none}
+.dashboard-card,.status-box,.library-level{color:var(--ink)}
+.stat-card{background:rgba(7,19,50,.3);border-color:rgba(255,255,255,.32)}
+.stat-card small,.stat-card span{color:#f4f7ff;font-size:.86rem}
+.hero-panel p,.hero-panel h1{color:#fff}
+.eyebrow{color:#fff;background:rgba(4,14,40,.32);border-color:rgba(255,255,255,.4)}
+.pill,.tag{color:#173aa9;background:#e5ecff}
+.steps{font-size:.9rem;color:var(--ink)}
+.steps span{background:#e1e8f5;color:#23334f}
+.steps .on{background:#ffb866;color:#291800}
+.vl .mr,.vl .en,.meaning-text,.verse-text{color:var(--ink)}
+.vl{background:#fff8ed}
+.box,.status-box{color:var(--ink);background:#f0f4ff;border-color:#c8d5f0}
+.auth-intro p{font-size:1.05rem;line-height:1.7}
+.password-hint,.password-rules,.sec{color:#364660}
+.err{color:#a7192a}
+.foot,.lv small,.lesson-copy p,.library-intro,.status-box p{color:#3f4e68}
+.in::placeholder{color:#53627a;opacity:1}
+button:focus-visible,input:focus-visible{outline:3px solid #3159cf;outline-offset:3px}
+.opt:disabled,.lv:disabled{opacity:1}
+.lv[disabled]{background:#eef1f7;color:#53627a}
+.lv[disabled] small,.lv[disabled] .st{color:#45536b}
+.dashboard-card h2,.library-level h3,.lesson-copy h3,.status-box strong{color:var(--ink)}
+.badge{color:#173459;background:#f4f7ff;border-color:#b7c8eb}
+.speech-status{color:#11264a;background:#e7efff}
+.library-tab[aria-selected="true"]{color:#fff}
+.ghost-button{background:rgba(4,14,40,.42);color:#fff;border-color:rgba(255,255,255,.5)}
+.btn.alt,.secondary-action{background:var(--card-strong);color:var(--ink);border-color:#8798b5}
+.who{color:#fff;background:rgba(7,19,50,.66);border-color:rgba(255,255,255,.55)}
+.who small{color:#fff2c9}
+.lp{background:var(--card-strong);border-color:#9eabc2}
+.lp button{color:#183dba}
+.password-toggle{color:#344563}
+@media(prefers-color-scheme:dark){
+ .pill,.tag{color:#e5ebff;background:#263b70}
+ .steps span{background:#263653;color:#edf3ff}
+ .steps .on{background:#ffc06a;color:#291800}
+ .vl{background:#202c45}
+ .box,.status-box{color:#edf3ff;background:#202d49;border-color:#405274}
+ .password-hint,.password-rules,.sec,.foot,.lv small,.lesson-copy p,.library-intro,.status-box p{color:#d0dbef}
+ .in::placeholder{color:#c3cfe3;opacity:1}
+ .lv[disabled]{background:#202a3e;color:#d7e0f0}
+ .lv[disabled] small,.lv[disabled] .st{color:#c3cfe3}
+ .badge{color:#e7edff;background:#202d49;border-color:#536583}
+ .speech-status{color:#eef3ff;background:#243656}
+ .btn.alt,.secondary-action{background:#16223b;color:#f0f4ff;border-color:#7183a2}
+ .lp{background:#17233f;border-color:#657798}
+ .lp button{color:#c6d4ff}
+ .password-toggle{color:#d7e0f0}
+ .err{color:#ff9aa8}
+}
+@media(min-width:701px){.wrap{max-width:820px}.auth-intro{padding-top:22px}.auth-intro p{max-width:640px}}
+@media(max-width:700px){.stat-card small,.stat-card span{font-size:.92rem}.steps{flex-wrap:wrap}.steps span{min-width:68px}.hero-panel,.dashboard-card,.card,.library-level{padding:16px}.foot{font-size:.9rem}body[data-screen="auth"] .scene-art,body[data-screen="home"] .scene-art,body[data-screen="library"] .scene-art{opacity:.12}}
+.password-field{position:relative;margin:8px 0}
+.password-field .in{margin:0;padding-right:58px;min-height:50px}
+.password-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:42px;height:42px;border:0;border-radius:12px;background:transparent;color:var(--mut);cursor:pointer}
+.password-toggle:hover{background:var(--pri-soft);color:var(--pri2)}
+.password-toggle:focus-visible{outline:3px solid var(--pri2);outline-offset:1px}
+.password-toggle svg{width:21px;height:21px}
+.password-hint{display:block;margin:5px 2px;color:var(--mut);font-size:.85rem}
+.caps-warning{display:none;margin:6px 0;padding:8px 10px;border-radius:10px;background:#fff0c2;color:#624200;font-size:.88rem;font-weight:800}
+.caps-warning.on{display:block}
+.password-rules{list-style:none;display:grid;gap:5px;padding:0;margin:9px 0;color:var(--mut);font-size:.85rem}
+.password-rules li::before{content:"○";display:inline-block;width:1.4em;font-weight:800}
+.password-rules li[data-valid="true"]{color:var(--ok);font-weight:700}
+.password-rules li[data-valid="true"]::before{content:"✓"}
+.auth-submit{margin-top:14px}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .verse-pair{background:var(--bg-strong)}}
+@media(max-width:620px){.verse-pair .verse-text{font-size:1.16rem}.library-level{padding:13px}.library-tab{padding:8px 12px}}
+@media(max-width:700px){.scene-bg{opacity:.34}.scene-art{width:min(88vw,430px);right:-25vw;top:14vh;opacity:.35}body[data-screen="auth"] .scene-bg{opacity:.68}body[data-screen="auth"] .scene-art{width:min(88vw,430px);right:-24vw;top:10vh;opacity:.5}body[data-screen="home"] .scene-bg{opacity:.68}body[data-screen="home"] .scene-art{width:min(76vw,360px);right:-28vw;top:10vh;opacity:.48}.auth-intro{padding:12px 6px 4px}}
+@media(prefers-reduced-motion:reduce){.scene-art,.scene-art .saint-body,.scene-art .halo,.scene-art .floating-book,.scene-art .sparkle,.scene-glow{animation:none!important}}
+.scene-bg{opacity:.12}
+body[data-screen="auth"] .scene-bg,body[data-screen="home"] .scene-bg,body[data-screen="library"] .scene-bg,body[data-screen="lesson"] .scene-bg,body[data-screen="profile"] .scene-bg,body[data-screen="otp"] .scene-bg{opacity:.12}
+body[data-screen="auth"] .scene-art,body[data-screen="home"] .scene-art,body[data-screen="library"] .scene-art,body[data-screen="lesson"] .scene-art,body[data-screen="profile"] .scene-art,body[data-screen="otp"] .scene-art{opacity:.1}
+body[data-screen="auth"] .scene-glow,body[data-screen="home"] .scene-glow,body[data-screen="library"] .scene-glow,body[data-screen="lesson"] .scene-glow,body[data-screen="profile"] .scene-glow,body[data-screen="otp"] .scene-glow{opacity:.2}
+.eyebrow,.tag,.pill,.badge,.library-group-label,.lesson-score{font-size:.84rem}
+.eyebrow{letter-spacing:.04em}
+.steps{font-size:.92rem;line-height:1.5}
+.library-intro,.meaning-text,.vl .en,.sec{font-size:1rem;line-height:1.65}
+.verse-pair .verse-text{line-height:1.7}
+.lesson-shell p,.dashboard-card p,.card p{line-height:1.65}
+.in,.opt,.btn,.secondary-action,.library-tab{line-height:1.5}
+.foot{font-size:.9rem;line-height:1.6}
+.password-hint,.password-rules,.sec{color:#364660}
+.password-hint{font-size:.92rem;line-height:1.55}
+.password-rules{font-size:.92rem}
+body[data-screen="auth"] .sec{color:#26354e;font-size:.95rem;line-height:1.65}
+.foot,.lv small,.lesson-copy p,.library-intro,.status-box p{color:#3f4e68}
+@media(prefers-color-scheme:dark){
+ :root:not([data-theme="light"]) .password-hint,:root:not([data-theme="light"]) .password-rules,:root:not([data-theme="light"]) .sec,:root:not([data-theme="light"]) .foot,:root:not([data-theme="light"]) .lv small,:root:not([data-theme="light"]) .lesson-copy p,:root:not([data-theme="light"]) .library-intro,:root:not([data-theme="light"]) .status-box p{color:#d0dbef}
+ :root:not([data-theme="light"]) body[data-screen="auth"] .sec{color:#d0dbef}
+ :root:not([data-theme="light"]) .lv{background:linear-gradient(180deg,#1b2944,#17233f);color:#edf3ff}
+ :root:not([data-theme="light"]) .lesson-card.locked{opacity:1;background:#202a3e;color:#edf3ff}
+}
+@media(max-width:700px){body[data-screen="auth"] .scene-bg,body[data-screen="home"] .scene-bg,body[data-screen="library"] .scene-bg,body[data-screen="lesson"] .scene-bg,body[data-screen="profile"] .scene-bg,body[data-screen="otp"] .scene-bg{opacity:.12}body[data-screen="auth"] .scene-art,body[data-screen="home"] .scene-art,body[data-screen="library"] .scene-art,body[data-screen="lesson"] .scene-art,body[data-screen="profile"] .scene-art,body[data-screen="otp"] .scene-art{opacity:.1}}
+</style><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1b3f8f"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Sant2Skill"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="icons/icon-192.png"><link rel="icon" href="icons/icon-192.png">
+<style>.ins{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:50;border:0;border-radius:30px;padding:12px 18px;font:inherit;font-weight:700;background:#f08a1c;color:#1d1400;box-shadow:0 6px 18px rgba(0,0,0,.3);cursor:pointer;display:none}</style>
+</head><body>
+<div class="scene-bg" aria-hidden="true"><div class="scene-glow"></div><svg class="scene-art" viewBox="0 0 500 590" role="presentation">
+<defs><linearGradient id="robe" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffcf73"/><stop offset=".52" stop-color="#e78b3c"/><stop offset="1" stop-color="#a84f42"/></linearGradient><linearGradient id="page" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffdf5"/><stop offset="1" stop-color="#e8d6ad"/></linearGradient><radialGradient id="aura"><stop stop-color="#fff1bf" stop-opacity=".75"/><stop offset="1" stop-color="#ffc15b" stop-opacity="0"/></radialGradient><linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e8ad78"/><stop offset="1" stop-color="#a86648"/></linearGradient></defs>
+<ellipse cx="253" cy="260" rx="210" ry="220" fill="url(#aura)"/>
+<g class="halo" fill="none"><circle cx="250" cy="190" r="126" stroke="#ffcf76" stroke-opacity=".7" stroke-width="2"/><circle cx="250" cy="190" r="110" stroke="#fff3c9" stroke-opacity=".55" stroke-width="1.5" stroke-dasharray="3 9"/><path d="M250 38v17m0 270v17M98 190h17m270 0h17M142 82l12 12m192 192 12 12m0-216-12 12M154 286l-12 12" stroke="#ffd789" stroke-opacity=".7" stroke-width="3" stroke-linecap="round"/></g>
+<g class="saint-body" style="filter:drop-shadow(0 18px 18px rgba(29,39,86,.22))">
+<path d="M159 420c5-75 42-125 91-138 49 13 86 63 91 138l-37 44H196z" fill="url(#robe)"/><path d="M200 398c18-24 36-36 50-37 14 1 32 13 50 37l-16 67h-68z" fill="#f3b85d" opacity=".8"/>
+<path d="M206 192c0-40 20-67 44-67s44 27 44 67v36c0 31-19 55-44 55s-44-24-44-55z" fill="url(#skin)"/><path d="M198 190c2-44 23-76 53-76 26 0 49 22 54 61-11-5-21-16-25-27-16 19-43 30-82 30z" fill="#f4d07c"/><path d="M207 190c11 3 23 3 35 0" stroke="#583c36" stroke-width="4" stroke-linecap="round"/><path d="M267 190c7 0 13 1 18 3" stroke="#583c36" stroke-width="4" stroke-linecap="round"/><path d="M236 221c9 8 20 8 29 0" fill="none" stroke="#70443b" stroke-width="4" stroke-linecap="round"/><path d="M239 169c7-6 15-6 22-1" stroke="#7c483a" stroke-width="3" stroke-linecap="round"/>
+<path d="M189 311c-34 17-47 48-46 76 1 14 9 23 23 21l38-41z" fill="#cf7644"/><path d="M310 311c34 17 47 48 46 76-1 14-9 23-23 21l-38-41z" fill="#bf6941"/><path d="M162 399c17-8 36-19 51-36l17 19c-15 22-36 37-59 43-12 3-18-17-9-26zm176 0c-17-8-36-19-51-36l-17 19c15 22 36 37 59 43 12 3 18-17 9-26z" fill="url(#skin)"/>
+<path d="M215 421c22-12 49-12 71 0" fill="none" stroke="#ffe2a1" stroke-opacity=".8" stroke-width="5" stroke-linecap="round"/>
+</g>
+<g class="floating-book" style="filter:drop-shadow(0 18px 16px rgba(24,36,76,.25))"><path d="M134 446q57-24 116 0v96q-59-23-116 0z" fill="url(#page)" stroke="#d6b873" stroke-width="3"/><path d="M250 446q59-24 116 0v96q-59-23-116 0z" fill="#fff9e8" stroke="#d6b873" stroke-width="3"/><path d="M250 447v96" stroke="#b99555" stroke-width="4"/><path d="M153 469q37-11 75 0m-75 16q37-11 75 0m-75 16q37-11 75 0m40-32q37-11 75 0m-75 16q37-11 75 0m-75 16q37-11 75 0" stroke="#bea979" stroke-opacity=".65" stroke-width="2" fill="none"/></g>
+<g fill="#ffe3a0"><path class="sparkle" d="m90 214 5 14 14 5-14 5-5 14-5-14-14-5 14-5z"/><path class="sparkle" d="m396 276 4 11 11 4-11 4-4 11-4-11-11-4 11-4z"/><path class="sparkle" d="m365 100 3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/></g>
+</svg></div><svg class="bg" viewBox="0 0 800 150" preserveAspectRatio="none" aria-hidden="true"><path fill="var(--h1)" d="M0 90 Q100 40 220 80 T450 70 T650 60 T800 85 V150 H0Z"/><path fill="var(--h2)" d="M0 110 Q140 70 280 105 T560 95 T800 108 V150 H0Z"/><path fill="var(--h3)" d="M0 130 Q200 100 400 128 T800 124 V150 H0Z"/><g fill="var(--tr)"><path d="M40 132 l9 -26 l9 26z M60 134 l7 -20 l7 20z M300 134 l9 -28 l9 28z M322 134 l7 -20 l7 20z M560 133 l9 -26 l9 26z M700 130 l9 -26 l9 26z M722 132 l7 -20 l7 20z"/><rect x="610" y="112" width="34" height="20"/><path d="M606 112 h42 l-21 -14z"/></g></svg><div class="wrap" id="main"></div>
+<script>
+const D=[[0,0,"⚖️",["बोले तैसा चाले","त्याची वंदावी पाउले"]],[0,0,"💛",["जे का रंजले गांजले","त्यासी म्हणे जो आपुले","तोचि साधू ओळखावा","देव तेथेचि जाणावा"]],[1,1,"🌧️",["जनी सर्वसुखी असा कोण आहे","विचारी मना तूंचि शोधूनि पाहें"]],[2,2,"🧘",["जे खळांची व्यंकटी सांडो","तयां सत्कर्मी रती वाढो","भूतां परस्परें पडो","मैत्र जीवाचें"]],[1,1,"🚩",["केल्याने होत आहे रे","आधी केलेचि पाहिजे"]],[2,2,"🏘️",["दुरितांचे तिमिर जावो","विश्व स्वधर्म सूर्यें पाहो","जो जे वांछिल तो तें लाहो","प्राणिजात"]]];
+// per level: [skill, line meanings, gist, quiz Q, quiz options(correct=idx1), correct msg, scene, [[apply opt, why] (best=first)], pledges]
+const X={
+en:[
+["Integrity",["One who acts exactly as they speak","deserves our deepest respect"],"Words are cheap; actions prove character. Be a person whose promises can be trusted.","What is the main teaching of this abhang?",["Speak sweetly so people like you","Match your actions to your words","Always bow to older people"],"Right! Respect comes from walking the talk.","You promised to return your friend’s notes by Monday, but you’d rather go out.",[["Return them on time, as promised.","Keeping a small promise builds big trust."],["Promise again for next week.","Delays break trust bit by bit."],["Say you never promised.","This is the opposite of ‘bole taisa chale’."]],["Keep one small promise every day.","Before saying yes, ask: can I truly do this?","Say sorry quickly when I miss a promise."]],
+["Empathy",["Those who are hurt and troubled","the one who calls them his own","is to be known as a true saint","God is found right there"],"Real goodness is helping people in pain as if they were your own family.","According to this abhang, who is a true saint?",["One who lives far from people","One who treats suffering people as their own","One who knows many languages"],"Yes! Compassion in action is the real test.","A classmate is being teased because he can’t afford the school kit.",[["Sit beside him, include him, and tell the teasers to stop.","You treated him as your own. That’s empathy."],["Laugh along so you aren’t targeted.","Joining in adds to his pain."],["Look away; not your problem.","Silence can hurt too."]],["Ask one person every day: how are you really?","Share something (lunch, notes) with someone who needs it.","Stand up when someone is teased."]],
+["Resilience",["Who in this world is completely happy?","O mind, think and find out for yourself"],"Everyone has troubles. Don’t envy others; face your own problems calmly and keep going.","What does this shlok want us to realise?",["Rich people have no problems","No one is free from troubles, so face yours with strength","Never ask for help"],"Correct! Knowing this reduces envy and builds strength.","Your friend made the team and you didn’t. You feel jealous.",[["Congratulate them, remember everyone struggles, and plan your own practice.","That is resilience: turn jealousy into effort."],["Stop talking to them.","Envy damages friendship."],["Quit the sport.","One setback isn’t the end."]],["When I feel envy, write one thing I can improve.","Each night, note one thing I overcame today.","Congratulate someone sincerely today."]],
+["Emotional Intelligence",["May the crookedness of the wicked fall away","may they grow fond of good deeds","may all living beings","be bound by friendship of the heart"],"Instead of hating those who hurt us, wish for them to change. A calm, kind mind is strong.","What does Dnyaneshwar wish even for wicked people?",["That they are punished","That they turn towards good deeds, and all beings live in friendship","That they stay away forever"],"Right! Wishing good for all is emotional maturity.","A classmate spread a rumour about you. Now he’s alone and stressed before exams.",[["Calmly tell him it hurt, and offer help if he asks.","You stayed in control and kept the door open to friendship."],["Spread a rumour about him.","Revenge keeps the hurt alive."],["Celebrate his trouble.","It feeds anger, not peace."]],["Pause for 5 slow breaths before replying in anger.","Say what hurt me, without insults.","Forgive one small thing today."]],
+["Leadership",["Things happen by doing","but first you must do it yourself"],"Don’t wait for perfect conditions. Start; others will follow your lead.","What is the message of this shlok?",["Wait for the right time","Take the first step yourself","Let others start first"],"Yes! Action first, results follow.","You want to start a reading club but keep waiting for someone to join first.",[["Start this week: pick one book and invite two friends.","Small first steps create leaders."],["Wait till 20 people sign up.","Waiting means nothing starts."],["Drop the idea.","Ideas need action."]],["Start one tiny good habit this week.","Volunteer for one task in class or home.","Invite one friend to join me."]],
+["Teamwork",["May the darkness of wrong fade away","may the world see by the sun of its own duty","may everyone get what they rightly wish","all living beings"],"A good team wants every person to shine. Success is shared, not owned by one.","Which idea fits this ovi best?",["Only the strongest should succeed","Everyone should be able to grow and succeed in their own way","Work alone to avoid conflict"],"Exactly! That is the spirit of teamwork.","In your group project one teammate draws well, another writes well.",[["Divide tasks by strengths so everyone shines.","Everyone gets to do their best."],["Do everything yourself.","You burn out and they don’t grow."],["Give the easy parts to friends only.","That’s unfair, and the project suffers."]],["Give credit to a teammate out loud.","Ask: what’s your strength? before dividing work.","Offer help before being asked."]]],
+mr:[
+["प्रामाणिकपणा",["जो जसा बोलतो तसाच वागतो","त्याच्या चरणी वंदन करावे (तो आदरास पात्र आहे)"],"शब्द स्वस्त असतात; कृतीतून चारित्र्य दिसते. असा माणूस व्हा ज्याच्या वचनावर विश्वास ठेवता येईल.","या अभंगाची मुख्य शिकवण काय?",["लोकांना आवडावे म्हणून गोड बोलावे","आपल्या वागण्याचा आणि बोलण्याचा मेळ ठेवावा","मोठ्यांना नेहमी वाकून नमस्कार करावा"],"बरोबर! बोलण्याप्रमाणे वागण्यातूनच आदर मिळतो.","तुम्ही मित्राला सोमवारी वह्या परत द्यायचे वचन दिले, पण आता तुम्हाला फिरायला जावेसे वाटते.",[["ठरल्याप्रमाणे वेळेवर वह्या परत करा.","लहान वचन पाळल्याने मोठा विश्वास निर्माण होतो."],["पुढच्या आठवड्याचे पुन्हा वचन द्या.","उशिरामुळे विश्वास हळूहळू तुटतो."],["तुम्ही वचन दिलेच नाही असे सांगा.","हे ‘बोले तैसा चाले’च्या अगदी उलट आहे."]],["रोज एक लहानसे वचन पाळा.","होकार देण्याआधी विचारा: हे मला खरोखर जमेल का?","वचन मोडल्यास लगेच माफी मागा."]],
+["सहानुभूती",["जे दुःखी, पीडित आहेत","त्यांना जो आपले म्हणतो","तोच खरा साधू ओळखावा","देव तेथेच आहे असे जाणावे"],"खरा चांगुलपणा म्हणजे दुःखी माणसांना आपल्याच कुटुंबातील समजून मदत करणे.","या अभंगानुसार खरा साधू कोण?",["जो माणसांपासून दूर राहतो","जो दुःखी लोकांना आपले मानतो","ज्याला अनेक भाषा येतात"],"होय! कृतीतील करुणा हीच खरी कसोटी आहे.","शाळेचे साहित्य परवडत नाही म्हणून एका वर्गमित्राची चेष्टा केली जात आहे.",[["त्याच्या शेजारी बसा, त्याला सोबत घ्या आणि चेष्टा करणाऱ्यांना थांबवा.","तुम्ही त्याला आपले मानले. हीच सहानुभूती."],["टार्गेट होऊ नये म्हणून हसण्यात सामील व्हा.","हसल्याने त्याचे दुःख वाढते."],["दुर्लक्ष करा; माझा काय संबंध?","गप्प राहणेही दुखावते."]],["रोज एकाला विचारा: खरंच कसा आहेस?","गरज असलेल्याबरोबर डबा किंवा वह्या वाटून घ्या.","कोणाची चेष्टा होत असेल तर पुढे व्हा."]],
+["चिकाटी",["या जगात पूर्ण सुखी कोण आहे?","अरे मना, तूच विचार करून शोधून पाहा"],"प्रत्येकाला अडचणी असतात. इतरांचा हेवा करू नका; आपल्या अडचणींना शांतपणे तोंड देत पुढे चालत राहा.","हा श्लोक आपल्याला काय जाणवून देतो?",["श्रीमंतांना कोणतीही अडचण नसते","कोणीही संकटांपासून मुक्त नाही, म्हणून आपल्या संकटांना धैर्याने सामोरे जावे","कधीही मदत मागू नये"],"बरोबर! हे जाणल्याने हेवा कमी होतो आणि बळ वाढते.","तुमचा मित्र संघात निवडला गेला, तुम्ही नाही. तुम्हाला हेवा वाटतो.",[["त्याचे अभिनंदन करा, प्रत्येकाला संघर्ष असतो हे लक्षात ठेवा आणि स्वतःचा सराव ठरवा.","हीच चिकाटी: हेव्याचे रूपांतर प्रयत्नांत."],["त्याच्याशी बोलणे बंद करा.","हेव्याने मैत्री बिघडते."],["तो खेळच सोडून द्या.","एका अपयशाने सगळे संपत नाही."]],["हेवा वाटला तर स्वतःतील एक सुधारणा लिहीन.","रोज रात्री आज मी कशावर मात केली ते लिहीन.","आज कोणाचे तरी मनापासून अभिनंदन करीन."]],
+["भावनिक बुद्धिमत्ता",["खळांची वक्रता नाहीशी होवो","त्यांना सत्कर्मांची आवड वाढो","सर्व प्राणिमात्रांमध्ये","जिवाभावाची मैत्री निर्माण होवो"],"आपल्याला दुखावणाऱ्यांचा द्वेष करण्याऐवजी त्यांनी बदलावे अशी इच्छा करा. शांत, दयाळू मन हेच खरे बळ आहे.","ज्ञानेश्वर दुष्ट लोकांसाठीही काय इच्छितात?",["त्यांना शिक्षा व्हावी","त्यांनी चांगल्या कर्मांकडे वळावे आणि सर्वांमध्ये मैत्री नांदावी","त्यांनी कायम दूर राहावे"],"बरोबर! सर्वांचे भले चिंतणे हीच भावनिक परिपक्वता.","एका वर्गमित्राने तुमच्याबद्दल अफवा पसरवली. आता परीक्षेआधी तो एकटा आणि तणावात आहे.",[["शांतपणे सांगा की तुम्हाला दुःख झाले, आणि त्याने मागितली तर मदत करा.","तुम्ही संयम राखला आणि मैत्रीचे दार उघडे ठेवले."],["त्याच्याबद्दल अफवा पसरवा.","सूडाने दुःख जिवंत राहते."],["त्याच्या अडचणीचा आनंद साजरा करा.","यामुळे राग वाढतो, शांती नाही."]],["रागात उत्तर देण्याआधी ५ दीर्घ श्वास घेईन.","अपमान न करता मला काय दुखावले ते सांगेन.","आज एखादी लहान चूक माफ करीन."]],
+["नेतृत्व",["करण्याने होते आहे","पण आधी स्वतःच केले पाहिजे"],"परिपूर्ण परिस्थितीची वाट पाहू नका. सुरुवात करा; इतर तुमच्या मागे येतील.","या श्लोकाचा संदेश काय?",["योग्य वेळेची वाट पाहावी","स्वतः पहिले पाऊल उचलावे","इतरांनी आधी सुरुवात करावी"],"होय! आधी कृती, मग फळ.","तुम्हाला वाचन मंडळ सुरू करायचे आहे, पण कोणीतरी आधी सामील होईल याची तुम्ही वाट पाहता.",[["या आठवड्यात सुरू करा: एक पुस्तक निवडा आणि दोन मित्रांना बोलवा.","लहान पहिली पावले नेते घडवतात."],["२० जण नोंदवतील तोपर्यंत थांबा.","वाट पाहिल्याने काहीच सुरू होत नाही."],["कल्पना सोडून द्या.","कल्पनांना कृतीची गरज असते."]],["या आठवड्यात एक लहान चांगली सवय सुरू करीन.","वर्गात किंवा घरी एक जबाबदारी स्वतःहून घेईन.","एका मित्राला सोबत येण्यास सांगेन."]],
+["सांघिक कार्य",["पापांचा अंधार नाहीसा होवो","विश्वाने स्वधर्मरूपी सूर्याच्या प्रकाशात पाहावे","ज्याला जे योग्य हवे ते त्याला मिळो","सर्व प्राणिमात्र"],"चांगला संघ प्रत्येकाने चमकावे असे इच्छितो. यश वाटून घ्यायचे असते, एकट्याचे नसते.","कोणती कल्पना या ओवीशी सर्वात जुळते?",["फक्त सर्वात बलवानाने यशस्वी व्हावे","प्रत्येकाला आपल्या पद्धतीने वाढता आणि यशस्वी होता यावे","संघर्ष टाळण्यासाठी एकट्याने काम करावे"],"अगदी बरोबर! हाच सांघिक कार्याचा आत्मा.","तुमच्या गट-प्रकल्पात एका सहकाऱ्याला चित्रे छान काढता येतात, दुसऱ्याला लिहिता येते.",[["कामे क्षमतेनुसार वाटा म्हणजे प्रत्येकजण चमकेल.","प्रत्येकाला आपले सर्वोत्तम देता येते."],["सर्व काही स्वतः करा.","तुम्ही थकता आणि बाकीचे शिकत नाहीत."],["सोपी कामे फक्त मित्रांना द्या.","हे अन्यायकारक आहे आणि प्रकल्प बिघडतो."]],["सर्वांसमोर सहकाऱ्याला श्रेय देईन.","काम वाटण्याआधी विचारेन: तुझी ताकद काय?","न मागता मदतीचा हात देईन."]]],
+hi:[
+["ईमानदारी",["जो जैसा बोलता है वैसा ही करता है","उसके चरणों में वंदन करना चाहिए (वह सम्मान के योग्य है)"],"शब्द सस्ते होते हैं; कर्म से चरित्र पता चलता है। ऐसे इंसान बनें जिसके वादे पर भरोसा किया जा सके।","इस अभंग की मुख्य सीख क्या है?",["लोगों को खुश करने के लिए मीठा बोलना","अपने कर्म और वचन में मेल रखना","बड़ों को हमेशा झुककर प्रणाम करना"],"सही! कथनी और करनी एक होने से सम्मान मिलता है।","आपने दोस्त से सोमवार तक नोट्स लौटाने का वादा किया था, पर अब आप घूमने जाना चाहते हैं।",[["वादे के अनुसार समय पर नोट्स लौटाएँ।","छोटा वादा निभाने से बड़ा भरोसा बनता है।"],["अगले हफ़्ते का नया वादा कर दें।","देरी से भरोसा धीरे-धीरे टूटता है।"],["कह दें कि आपने कोई वादा ही नहीं किया था।","यह ‘बोले तैसा चाले’ के बिल्कुल उलट है।"]],["रोज़ एक छोटा वादा निभाऊँगा।","हाँ कहने से पहले सोचूँगा: क्या मैं यह सच में कर सकता हूँ?","वादा टूटे तो तुरंत माफ़ी माँगूँगा।"]],
+["सहानुभूति",["जो दुखी और पीड़ित हैं","उन्हें जो अपना कहता है","वही सच्चा साधु पहचानना चाहिए","वहीं ईश्वर का वास जानो"],"सच्ची अच्छाई है दुखी लोगों की अपने परिवार की तरह मदद करना।","इस अभंग के अनुसार सच्चा साधु कौन है?",["जो लोगों से दूर रहता है","जो पीड़ित लोगों को अपना मानता है","जिसे कई भाषाएँ आती हैं"],"हाँ! कर्म में करुणा ही असली कसौटी है।","स्कूल का सामान न खरीद पाने की वजह से एक सहपाठी का मज़ाक उड़ाया जा रहा है।",[["उसके पास बैठें, उसे साथ लें और मज़ाक उड़ाने वालों को रोकें।","आपने उसे अपना माना। यही सहानुभूति है।"],["निशाना न बनने के लिए हँसी में शामिल हो जाएँ।","साथ हँसने से उसका दर्द बढ़ता है।"],["नज़रअंदाज़ करें; मुझे क्या?","चुप रहना भी चोट पहुँचाता है।"]],["रोज़ एक व्यक्ति से पूछूँगा: सच में कैसे हो?","ज़रूरतमंद के साथ अपना खाना या नोट्स बाँटूँगा।","किसी का मज़ाक उड़े तो उसके पक्ष में खड़ा होऊँगा।"]],
+["लचीलापन",["इस संसार में पूरी तरह सुखी कौन है?","हे मन, तू ही सोचकर खोजकर देख"],"हर किसी को परेशानियाँ होती हैं। दूसरों से ईर्ष्या न करें; अपनी समस्याओं का शांति से सामना करें और आगे बढ़ते रहें।","यह श्लोक हमें क्या समझाता है?",["अमीरों को कोई समस्या नहीं होती","कोई भी कठिनाइयों से मुक्त नहीं, इसलिए अपनी कठिनाइयों का साहस से सामना करें","कभी मदद नहीं माँगनी चाहिए"],"सही! यह समझने से ईर्ष्या घटती है और शक्ति बढ़ती है।","आपका दोस्त टीम में चुना गया, आप नहीं। आपको जलन हो रही है।",[["उसे बधाई दें, याद रखें कि सबका संघर्ष होता है, और अपना अभ्यास तय करें।","यही लचीलापन है: जलन को मेहनत में बदलना।"],["उससे बात करना बंद कर दें।","ईर्ष्या दोस्ती बिगाड़ती है।"],["वह खेल ही छोड़ दें।","एक असफलता का मतलब अंत नहीं है।"]],["जलन हो तो अपनी एक सुधार-योग्य बात लिखूँगा।","हर रात लिखूँगा कि आज मैंने किस चुनौती को पार किया।","आज किसी को सच्चे मन से बधाई दूँगा।"]],
+["भावनात्मक बुद्धिमत्ता",["दुष्टों की कुटिलता दूर हो","उनकी सत्कर्मों में रुचि बढ़े","सभी प्राणियों में आपस में","हृदय की मित्रता बनी रहे"],"जो हमें चोट पहुँचाते हैं उनसे नफ़रत करने के बजाय चाहें कि वे बदलें। शांत और दयालु मन ही असली ताक़त है।","ज्ञानेश्वर दुष्टों के लिए भी क्या चाहते हैं?",["कि उन्हें सज़ा मिले","कि वे अच्छे कर्मों की ओर मुड़ें और सब में मित्रता हो","कि वे हमेशा दूर रहें"],"सही! सबका भला चाहना ही भावनात्मक परिपक्वता है।","एक सहपाठी ने आपके बारे में अफ़वाह फैलाई। अब परीक्षा से पहले वह अकेला और तनाव में है।",[["शांति से बताएँ कि आपको दुख हुआ, और वह माँगे तो मदद करें।","आपने संयम रखा और दोस्ती का दरवाज़ा खुला रखा।"],["उसके बारे में अफ़वाह फैलाएँ।","बदला दर्द को ज़िंदा रखता है।"],["उसकी परेशानी पर खुश हों।","इससे गुस्सा बढ़ता है, शांति नहीं।"]],["गुस्से में जवाब देने से पहले ५ गहरी साँसें लूँगा।","बिना अपमान किए बताऊँगा कि मुझे क्या चुभा।","आज एक छोटी बात माफ़ करूँगा।"]],
+["नेतृत्व",["करने से ही होता है","पर पहले स्वयं करना ही पड़ता है"],"परफ़ेक्ट हालात का इंतज़ार न करें। शुरुआत करें; बाकी आपके पीछे चलेंगे।","इस श्लोक का संदेश क्या है?",["सही समय का इंतज़ार करें","खुद पहला कदम उठाएँ","दूसरों को पहले शुरू करने दें"],"हाँ! पहले कर्म, फिर फल।","आप पढ़ने का क्लब शुरू करना चाहते हैं पर इंतज़ार कर रहे हैं कि कोई पहले जुड़े।",[["इसी हफ़्ते शुरू करें: एक किताब चुनें और दो दोस्तों को बुलाएँ।","छोटे पहले कदम ही नेता बनाते हैं।"],["२० लोगों के जुड़ने तक रुकें।","इंतज़ार से कुछ शुरू नहीं होता।"],["विचार छोड़ दें।","विचारों को कर्म की ज़रूरत होती है।"]],["इस हफ़्ते एक छोटी अच्छी आदत शुरू करूँगा।","कक्षा या घर में एक काम स्वयं आगे बढ़कर लूँगा।","एक दोस्त को साथ जुड़ने को कहूँगा।"]],
+["टीमवर्क",["पाप का अंधकार दूर हो","संसार स्वधर्म-रूपी सूर्य के प्रकाश में देखे","जो जिसकी उचित इच्छा हो वह उसे मिले","सभी प्राणी"],"अच्छी टीम चाहती है कि हर व्यक्ति चमके। सफलता बाँटी जाती है, अकेले की नहीं होती।","कौन-सा विचार इस ओवी से सबसे अधिक मेल खाता है?",["केवल सबसे ताक़तवर को सफल होना चाहिए","हर किसी को अपने ढंग से बढ़ने और सफल होने का मौका मिले","विवाद से बचने के लिए अकेले काम करें"],"बिल्कुल सही! यही टीमवर्क की भावना है।","आपके ग्रुप प्रोजेक्ट में एक साथी अच्छी ड्रॉइंग बनाता है, दूसरा अच्छा लिखता है।",[["काम खूबियों के अनुसार बाँटें ताकि हर कोई चमके।","हर किसी को अपना सर्वश्रेष्ठ देने का मौका मिलता है।"],["सब कुछ खुद करें।","आप थक जाते हैं और बाकी सीख नहीं पाते।"],["आसान काम सिर्फ़ दोस्तों को दें।","यह अनुचित है और प्रोजेक्ट बिगड़ता है।"]],["सबके सामने साथी को श्रेय दूँगा।","काम बाँटने से पहले पूछूँगा: तुम्हारी ताक़त क्या है?","बिना माँगे मदद का हाथ बढ़ाऊँगा।"]]]};
+const U={
+en:{ti:"Sant to Skill: Level Quest",sub:"Read a verse. Understand it. Prove it. Live it.",lv:"Level",dn:"Levels done",ty:["Abhang","Shlok","Ovi"],sa:["Sant Tukaram","Samarth Ramdas","Sant Dnyaneshwar (Pasaydan)"],st:["📖 Read","🧠 Understand","🌍 Apply","✅ Pledge"],go:"I understood it → Take the quiz",bk:"← Levels",sw:"💡 In simple words:",nq:"Not quite. Re-read: ",rl:"🌍 Real-life moment",pl:"✅ Your pledge",pp:"Pick one action you will do in daily life to practise",ct:"Continue ➜",done:"complete!",un:"unlocked. This wisdom now lives in your day.",nx:"Next level ➜",bl:"Back to levels",rs:"See my results ➜",ti2:["Sant-Inspired Leader","Wisdom Keeper","Growing Learner"],ea:"You earned",of:"of",stars:"stars.",plan:"🗓 My Daily Life Plan",rst:"Reset progress",cf:"Reset all progress?",ft:"Ancient wisdom → Modern life skills → Transformed students"},
+mr:{ti:"संत ते कौशल्य: लेव्हल क्वेस्ट",sub:"ओळी वाचा. अर्थ समजा. कसोटी द्या. आचरणात आणा.",lv:"लेव्हल",dn:"पूर्ण झालेल्या लेव्हल",ty:["अभंग","श्लोक","ओवी"],sa:["संत तुकाराम","समर्थ रामदास","संत ज्ञानेश्वर (पसायदान)"],st:["📖 वाचा","🧠 समजा","🌍 लागू करा","✅ संकल्प"],go:"मला समजले → प्रश्नमंजुषा सुरू करा",bk:"← लेव्हल",sw:"💡 सोप्या शब्दांत:",nq:"अगदी बरोबर नाही. पुन्हा वाचा: ",rl:"🌍 रोजच्या जीवनातील प्रसंग",pl:"✅ तुमचा संकल्प",pp:"रोजच्या जीवनात सराव करण्यासाठी एक कृती निवडा:",ct:"पुढे ➜",done:"पूर्ण!",un:"आत्मसात झाले. ही शिकवण आता तुमच्या दिवसात उतरली.",nx:"पुढची लेव्हल ➜",bl:"लेव्हलकडे परत",rs:"माझा निकाल पाहा ➜",ti2:["संत-प्रेरित नेता","ज्ञानाचा रक्षक","वाढणारा विद्यार्थी"],ea:"तुम्ही मिळवले",of:"पैकी",stars:"तारे.",plan:"🗓 माझी रोजची कृती-योजना",rst:"प्रगती रिसेट करा",cf:"सर्व प्रगती रिसेट करायची?",ft:"प्राचीन ज्ञान → आधुनिक जीवन-कौशल्ये → घडलेले विद्यार्थी"},
+hi:{ti:"संत से कौशल्य: लेवल क्वेस्ट",sub:"पंक्तियाँ पढ़ें। अर्थ समझें। परखें। जीवन में उतारें।",lv:"लेवल",dn:"पूरे हुए लेवल",ty:["अभंग","श्लोक","ओवी"],sa:["संत तुकाराम","समर्थ रामदास","संत ज्ञानेश्वर (पसायदान)"],st:["📖 पढ़ें","🧠 समझें","🌍 लागू करें","✅ संकल्प"],go:"मैं समझ गया → क्विज़ शुरू करें",bk:"← लेवल",sw:"💡 आसान शब्दों में:",nq:"पूरी तरह सही नहीं। फिर से पढ़ें: ",rl:"🌍 रोज़मर्रा का प्रसंग",pl:"✅ आपका संकल्प",pp:"रोज़ की ज़िंदगी में अभ्यास के लिए एक कर्म चुनें:",ct:"आगे ➜",done:"पूरा!",un:"आत्मसात हुआ। यह सीख अब आपके दिन में उतर गई।",nx:"अगला लेवल ➜",bl:"लेवल पर वापस",rs:"मेरा परिणाम देखें ➜",ti2:["संत-प्रेरित नेता","ज्ञान के रक्षक","बढ़ता विद्यार्थी"],ea:"आपने कमाए",of:"में से",stars:"सितारे।",plan:"🗓 मेरी रोज़ की योजना",rst:"प्रगति रीसेट करें",cf:"सारी प्रगति रीसेट करें?",ft:"प्राचीन ज्ञान → आधुनिक जीवन-कौशल → बदले हुए विद्यार्थी"}};
+let P={s:{},p:{}},G="en",ME=null;
+try{G=localStorage.getItem("s2sl")||"en"}catch(e){}
+const pk=()=>"s2s3_"+ME.m;
+const lpr=()=>{try{P=JSON.parse(localStorage.getItem(pk()))||{s:{},p:{}}}catch(e){P={s:{},p:{}}}};
+const sv=()=>{if(!ME)return;try{localStorage.setItem(pk(),JSON.stringify(P))}catch(e){}};
+const M=document.getElementById("main");let cur=null,fb=false;
+let librarySant="all",libraryType="all",speechRun=0;
+const LIB={
+ en:{browse:"Explore the verse library",title:"Sant verse library",intro:"Browse the starter collection currently in this app. It contains six examples, not the complete works of these Sants.",allSants:"All Sants",allTypes:"All forms",types:["Abhang","Manache Shlok","Ovi"],level:"Level",readPair:"Tap to hear verse + meaning",readFull:"Read this level and meanings",stop:"Stop audio",playing:"Reading the original verse first, then its meaning.",finished:"Finished reading.",noMarathiVoice:"No Marathi voice detected; trying a Hindi voice for the original verse. Pronunciation can vary.",stopped:"Reading stopped.",unavailable:"Speech is unavailable in this browser. Try a browser or device with Marathi text-to-speech voices.",error:"Speech could not be played. Check your device’s text-to-speech settings.",empty:"No verses match these tabs.",libraryBack:"← Home",summary:"Read the meaning"},
+ mr:{browse:"संतवाङ्मय संग्रह पाहा",title:"संतवाङ्मय संग्रह",intro:"या अॅपमधील सुरुवातीचा संग्रह पाहा. यात सहा उदाहरणे आहेत; संतांचे संपूर्ण साहित्य नाही.",allSants:"सर्व संत",allTypes:"सर्व प्रकार",types:["अभंग","मनाचे श्लोक","ओवी"],level:"स्तर",readPair:"ओवी/ओळ आणि अर्थ ऐकण्यासाठी टॅप करा",readFull:"हा स्तर आणि अर्थ वाचा",stop:"वाचन थांबवा",playing:"आधी मूळ अभंग/ओळ, त्यानंतर अर्थ वाचला जात आहे.",finished:"वाचन पूर्ण झाले.",noMarathiVoice:"मराठी आवाज आढळला नाही; मूळ ओळीसाठी हिंदी आवाज वापरण्याचा प्रयत्न सुरू आहे. उच्चार वेगळा असू शकतो.",stopped:"वाचन थांबवले.",unavailable:"या ब्राउझरमध्ये आवाज उपलब्ध नाही. मराठी मजकूर-वाचन सुविधा असलेला ब्राउझर किंवा डिव्हाइस वापरा.",error:"आवाज वाचता आला नाही. डिव्हाइसची मजकूर-वाचन सेटिंग तपासा.",empty:"या टॅबमध्ये ओळी उपलब्ध नाहीत.",libraryBack:"← मुख्यपृष्ठ",summary:"अर्थ वाचा"},
+ hi:{browse:"संत साहित्य संग्रह देखें",title:"संत साहित्य संग्रह",intro:"इस ऐप में अभी मौजूद शुरुआती संग्रह देखें। इसमें छह उदाहरण हैं, संतों की पूरी रचनाएँ नहीं।",allSants:"सभी संत",allTypes:"सभी रचनाएँ",types:["अभंग","मनाचे श्लोक","ओवी"],level:"स्तर",readPair:"पंक्ति और अर्थ सुनने के लिए टैप करें",readFull:"यह स्तर और अर्थ पढ़ें",stop:"पढ़ना रोकें",playing:"पहले मूल अभंग/पंक्ति, फिर उसका अर्थ पढ़ा जा रहा है।",finished:"पढ़ना पूरा हुआ।",noMarathiVoice:"मराठी आवाज़ नहीं मिली; मूल पंक्ति के लिए हिंदी आवाज़ आज़माई जा रही है। उच्चारण अलग हो सकता है।",stopped:"पढ़ना रोक दिया गया।",unavailable:"इस ब्राउज़र में आवाज़ उपलब्ध नहीं है। मराठी टेक्स्ट-टू-स्पीच वाला ब्राउज़र या डिवाइस आज़माएँ।",error:"आवाज़ नहीं चल सकी। डिवाइस की टेक्स्ट-टू-स्पीच सेटिंग जाँचें।",empty:"इन टैब में कोई पंक्ति नहीं है।",libraryBack:"← होम",summary:"अर्थ पढ़ें"}
+};
+const AUTH_UI={
+ en:{show:"Show password",hide:"Hide password",caps:"Caps Lock is on",caseHint:"Passwords are case-sensitive.",length:"At least 8 characters",letter:"At least one letter",number:"At least one number",weak:"Weak",medium:"Good",strong:"Strong",match:"Passwords match.",mismatch:"Passwords do not match yet."},
+ mr:{show:"पासवर्ड दाखवा",hide:"पासवर्ड लपवा",caps:"Caps Lock सुरू आहे",caseHint:"पासवर्डमधील अक्षरे मोठी-लहान ओळखली जातात.",length:"किमान ८ अक्षरे",letter:"किमान एक अक्षर",number:"किमान एक अंक",weak:"कमकुवत",medium:"चांगला",strong:"मजबूत",match:"पासवर्ड जुळतात.",mismatch:"पासवर्ड अजून जुळत नाहीत."},
+ hi:{show:"पासवर्ड दिखाएँ",hide:"पासवर्ड छिपाएँ",caps:"Caps Lock चालू है",caseHint:"पासवर्ड में बड़े और छोटे अक्षर अलग माने जाते हैं।",length:"कम से कम 8 अक्षर",letter:"कम से कम एक अक्षर",number:"कम से कम एक अंक",weak:"कमज़ोर",medium:"अच्छा",strong:"मज़बूत",match:"पासवर्ड मेल खाते हैं।",mismatch:"पासवर्ड अभी मेल नहीं खाते।"}
+};
+const u=()=>U[G],x=i=>X[G][i];
+const stars=n=>"⭐".repeat(n)+"☆".repeat(3-n);
+const total=()=>Object.values(P.s).reduce((a,b)=>a+b,0);
+const shuf=()=>[0,1,2].sort(()=>Math.random()-.5);
+const lang_old=()=>`<div class="lang">${[["en","English"],["mr","मराठी"],["hi","हिन्दी"]].map(l=>`<button class="${G==l[0]?"on":""}" onclick="setL('${l[0]}')">${l[1]}</button>`).join("")}</div>`;
+function setL_old(l){G=l;sv();document.documentElement.lang=l;cur?view():map()}
+const who=i=>u().ty[D[i][0]]+" · "+u().sa[D[i][1]];
+function map(){document.body.dataset.screen="home";cur=null;const dn=Object.keys(P.s).length,t=u(),score=total(),next=i=>{for(let n=0;n<D.length;n++)if(P.s[n]==null)return n;return null};const isDone=dn===D.length;
+ let h=topbar()+`<div class="app-shell"><div class="hero-panel"><div class="hero-top"><span class="eyebrow">Growth journey</span><button class="ghost-button" onclick="if(confirm(u().cf)){P={s:{},p:{}};sv();map()}">${t.rst}</button></div><div class="hero-title"><div>${EMB}</div><div><h1>${t.ti}</h1><p>${t.sub}</p></div></div><div class="stats-grid"><div class="stat-card"><small>Progress</small><strong>${dn}/${D.length}</strong><span>${Math.round((dn/D.length)*100)}%</span></div><div class="stat-card"><small>Stars</small><strong>${score}</strong><span>${score}/${D.length*3}</span></div><div class="stat-card"><small>Next</small><strong>${next()!=null?`L${next()+1}`:"Done"}</strong><span>${next()!=null?`Continue your path`:`Mastery unlocked`}</span></div></div><div class="bar" style="margin-top:12px"><i style="width:${(dn/D.length)*100}%"></i></div></div><button class="btn" onclick="library()">${LIB[G].browse}</button><div class="dashboard-grid"><div class="dashboard-card"><div class="section-header"><h2>Learning path</h2><span class="pill">${dn} unlocked</span></div>`;
+ D.forEach((d,i)=>{const lock=i>0&&P.s[i-1]==null;h+=`<button class="lesson-card ${lock?"locked":""}" ${lock?"disabled":""} onclick="start(${i})"><div class="lesson-index">${lock?"🔒":i+1}</div><div class="lesson-copy"><h3>${d[2]} ${x(i)[0]}</h3><p>${who(i)}</p></div><div class="lesson-score">${P.s[i]!=null?stars(P.s[i]):lock?"Locked":"Open"}</div></button>`});
+ h+=`</div><div class="dashboard-card"><div class="section-header"><h2>Progress</h2><span class="pill">${score>0?"Active":"Starting"}</span></div><div class="status-box"><span>Current momentum</span><strong>${score || 0} / ${D.length*3}</strong><p style="margin:8px 0 0;color:var(--mut)">${t.ea} ${score} ${t.of} ${D.length*3} ${t.stars}</p></div><div class="badge-row">${["Mindful","Disciplined","Compassionate","Reliable"].map(v=>`<span class="badge">${v}</span>`).join("")}</div>${isDone?`<div class="card" style="margin:14px 0 0;padding:14px"><div class="big">${["🏆","🌟","🌱"][score>=16?0:score>=11?1:2]}</div><h2 style="text-align:center;margin:0">${t.ti2[score>=16?0:score>=11?1:2]}</h2></div>`:""}</div></div>`;
+ const ks=Object.keys(P.p);
+ if(ks.length){h+=`<div class="card"><h2>${t.plan}</h2>`+ks.map(i=>`<p><b>${D[i][2]} ${x(i)[0]}:</b> ${typeof P.p[i]=="number"?x(i)[8][P.p[i]]:""}</p>`).join("")+`</div>`}
+ h+=`</div><div class="foot">${t.ft}</div>`;
+ M.innerHTML=h;window.scrollTo(0,0) }
+function library(){document.body.dataset.screen="library";cur=null;const labels=LIB[G],t=u(),visible=D.map((d,i)=>({d,i})).filter(({d})=>(librarySant==="all"||d[1]===librarySant)&&(libraryType==="all"||d[0]===libraryType));
+ let h=topbar()+`<div class="card"><button class="back" onclick="map()">${labels.libraryBack}</button><h1>${labels.title}</h1><p class="library-intro">${labels.intro}</p><div class="library-group-label">${labels.allSants}</div><div class="library-tabs" role="tablist" aria-label="${labels.allSants}"><button class="library-tab" role="tab" aria-selected="${librarySant==="all"}" tabindex="${librarySant==="all"?0:-1}" onkeydown="libraryKey(event,'sant',0)" onclick="librarySant='all';library()">${labels.allSants}</button>${t.sa.map((name,i)=>`<button class="library-tab" role="tab" aria-selected="${librarySant===i}" tabindex="${librarySant===i?0:-1}" onkeydown="libraryKey(event,'sant',${i+1})" onclick="librarySant=${i};library()">${name}</button>`).join("")}</div><div class="library-group-label">${labels.allTypes}</div><div class="library-tabs" role="tablist" aria-label="${labels.allTypes}"><button class="library-tab" role="tab" aria-selected="${libraryType==="all"}" tabindex="${libraryType==="all"?0:-1}" onkeydown="libraryKey(event,'type',0)" onclick="libraryType='all';library()">${labels.allTypes}</button>${labels.types.map((name,i)=>`<button class="library-tab" role="tab" aria-selected="${libraryType===i}" tabindex="${libraryType===i?0:-1}" onkeydown="libraryKey(event,'type',${i+1})" onclick="libraryType=${i};library()">${name}</button>`).join("")}</div><div id="speech-status" class="speech-status" role="status" aria-live="polite"></div>`;
+ if(!visible.length)h+=`<p>${labels.empty}</p>`;
+ visible.forEach(({d,i})=>{const level=D.slice(0,i).filter(prev=>prev[1]===d[1]&&prev[0]===d[0]).length+1,l=x(i);h+=`<article class="library-level"><div class="library-meta"><span class="pill">${t.sa[d[1]]}</span><span class="tag">${labels.types[d[0]]}</span><span class="pill">${labels.level} ${level}</span></div><h3>${d[2]} ${l[0]}</h3><div class="speech-controls"><button class="secondary-action" onclick="readVerse(${i})">🔊 ${labels.readFull}</button><button class="secondary-action" onclick="stopReading()">■ ${labels.stop}</button><button class="secondary-action" onclick="readSummary(${i})">🔊 ${labels.summary}</button></div>${d[3].map((verse,line)=>`<button class="verse-pair" onclick="readPair(${i},${line})" aria-label="${esc(verse)}. ${esc(l[1][line]||l[2])}"><span class="verse-text">${verse}</span><span class="meaning-text">${l[1][line]||l[2]}</span><span class="tap-hint">🔊 ${labels.readPair}</span></button>`).join("")}<div class="box"><b>${t.sw}</b> ${l[2]}</div></article>`});
+ h+=`</div>`;M.innerHTML=h;window.scrollTo(0,0)}
+function libraryKey(event,group,index){const count=4;if(!["ArrowRight","ArrowLeft","Home","End"].includes(event.key))return;event.preventDefault();const next=event.key==="Home"?0:event.key==="End"?count-1:(index+(event.key==="ArrowRight"?1:-1)+count)%count;if(group==="sant")librarySant=next===0?"all":next-1;else libraryType=next===0?"all":next-1;library();document.querySelector(`.library-tabs[aria-label="${LIB[G][group==="sant"?"allSants":"allTypes"]}"] [role="tab"][aria-selected="true"]`)?.focus()}
+function readingStatus(message){const status=document.getElementById("speech-status");if(status)status.textContent=message}
+function speakParts(parts){const labels=LIB[G];if(!("speechSynthesis" in window)||!("SpeechSynthesisUtterance" in window)){readingStatus(labels.unavailable);return}
+ const run=++speechRun;window.speechSynthesis.cancel();const voices=window.speechSynthesis.getVoices(),voiceFor=prefix=>voices.find(voice=>voice.lang.toLowerCase()===prefix.toLowerCase())||voices.find(voice=>voice.lang.toLowerCase().startsWith(prefix.slice(0,2).toLowerCase())),mrVoice=voiceFor("mr-IN"),hiVoice=voiceFor("hi-IN"),defaultVoice=voices.find(voice=>voice.default)||voices[0]||null;
+ const verseVoice=mrVoice||hiVoice||defaultVoice;readingStatus(mrVoice?labels.playing:`${labels.playing} ${labels.noMarathiVoice}`);let index=0;
+ const speakNext=()=>{if(run!==speechRun)return;if(index>=parts.length){readingStatus(labels.finished);return}const part=parts[index++],utterance=new SpeechSynthesisUtterance(part.text);utterance.rate=part.kind==="verse"?.84:.96;
+  const requested=voiceFor(part.lang);utterance.voice=part.kind==="verse"?verseVoice:requested||defaultVoice;utterance.lang=utterance.voice?.lang|| (part.kind==="verse"&&hiVoice?"hi-IN":part.lang);
+  utterance.onend=speakNext;utterance.onerror=event=>{if(run!==speechRun||event.error==="canceled"||event.error==="interrupted")return;
+   const fallbackVoice=part.kind==="verse"?(utterance.voice===hiVoice?defaultVoice:hiVoice||defaultVoice):null;
+   if(fallbackVoice&&fallbackVoice!==utterance.voice){const fallback=new SpeechSynthesisUtterance(part.text);fallback.lang=fallbackVoice.lang||"hi-IN";fallback.voice=fallbackVoice;fallback.rate=.84;fallback.onend=speakNext;fallback.onerror=speakNext;window.speechSynthesis.speak(fallback);return}
+   speakNext()};
+  try{window.speechSynthesis.speak(utterance)}catch(error){speakNext()}};
+ try{speakNext()}catch(error){readingStatus(labels.error)}
+}
+function readPair(i,line){if(!D[i]||!D[i][3][line])return;const meaning=x(i)[1][line]||x(i)[2],meaningLang=G==="mr"?"mr-IN":G==="hi"?"hi-IN":"en-IN";speakParts([{text:D[i][3][line],lang:"mr-IN",kind:"verse"},{text:meaning,lang:meaningLang,kind:"meaning"}])}
+function readVerse(i){if(!D[i])return;const meaningLang=G==="mr"?"mr-IN":G==="hi"?"hi-IN":"en-IN",parts=[];D[i][3].forEach((verse,line)=>{parts.push({text:verse,lang:"mr-IN",kind:"verse"},{text:x(i)[1][line]||x(i)[2],lang:meaningLang,kind:"meaning"})});speakParts(parts)}
+function readSummary(i){if(!D[i])return;speakParts([{text:x(i)[2],lang:G==="mr"?"mr-IN":G==="hi"?"hi-IN":"en-IN"}])}
+function stopReading(){speechRun++;if("speechSynthesis" in window)window.speechSynthesis.cancel();readingStatus(LIB[G].stopped)}
+function start(i){cur={i,step:0,st:0,d:{},o:shuf()};view()}
+function go(n){cur.step=n;cur.o=shuf();view()}
+function head(){return lang()+`<button class="back" onclick="map()">${u().bk}</button><div class="steps">${u().st.map((s,k)=>`<span class="${k==cur.step?"on":""}">${s}</span>`).join("")}</div>`}
+function opts(a){return a.map((o,j)=>`<button class="opt" onclick="pick(${j})">${o}</button>`).join("")}
+function view(){document.body.dataset.screen="lesson";const i=cur.i,d=D[i],l=x(i),t=u();fb=false;let h=head();
+ if(cur.step==0){h+=`<div class="lesson-shell"><div class="lesson-hero"><div class="lesson-meta"><span class="tag">${t.ty[d[0]]}</span><span class="tag">${t.sa[d[1]]}</span></div><h2>${t.lv} ${i+1}: ${l[0]}</h2><p>${t.sw} ${l[2]}</p></div>`+d[3].map((m,k)=>`<div class="vl"><div class="mr">${m}</div><div class="en">${l[1][k]}</div></div>`).join("")+`<div class="box"><b>${t.sw}</b> ${l[2]}</div><div class="lesson-cta"><button class="secondary-action" onclick="speak()">🔊 ${V[G].ls}</button><button class="secondary-action" onclick="stopReading()">■ ${LIB[G].stop}</button></div><div id="speech-status" class="speech-status" role="status" aria-live="polite"></div><button class="btn" onclick="go(1)">${t.go}</button></div>`}
+ else if(cur.step==1){h+=`<div class="lesson-shell"><div class="lesson-hero"><div class="lesson-meta"><span class="tag">${t.ty[d[0]]}</span><span class="tag">${t.sa[d[1]]}</span></div><h2>🧠 ${l[3]}</h2><p>Choose the strongest answer.</p></div><div class="card" style="margin:0"><div>${opts(cur.o.map(k=>l[4][k]))}</div><div id="fb"></div></div></div>`}
+ else if(cur.step==2){h+=`<div class="lesson-shell"><div class="lesson-hero"><div class="lesson-meta"><span class="tag">${t.ty[d[0]]}</span><span class="tag">${t.sa[d[1]]}</span></div><h2>${t.rl}</h2><p>${l[6]}</p></div><div class="card" style="margin:0"><div>${opts(cur.o.map(k=>l[7][k][0]))}</div><div id="fb"></div></div></div>`}
+ else if(cur.step==3){h+=`<div class="lesson-shell"><div class="lesson-hero"><div class="lesson-meta"><span class="tag">${t.ty[d[0]]}</span><span class="tag">${t.sa[d[1]]}</span></div><h2>${t.pl}</h2><p>${t.pp} <b>${l[0]}</b>:</p></div><div class="card" style="margin:0">${opts(l[8])}</div></div>`}
+ else{h+=`<div class="lesson-shell"><div class="lesson-hero"><div class="lesson-meta"><span class="tag">${t.ty[d[0]]}</span><span class="tag">${t.sa[d[1]]}</span></div><h2>${t.lv} ${i+1} ${t.done}</h2><p>${l[0]} ${t.un}</p></div><div class="card" style="margin:0;text-align:center"><div class="big">🎉</div><p style="font-size:1.6rem;margin:0">${stars(cur.st)}</p><button class="btn" onclick="${i<D.length-1?`start(${i+1})`:"map()"}">${i<D.length-1?t.nx:t.rs}</button><button class="btn alt" onclick="map()">${t.bl}</button></div></div>`}
+ M.innerHTML=h;window.scrollTo(0,0) }
+function mark(j,good,msg,ok){document.querySelectorAll(".opt").forEach((b,k)=>{b.disabled=true;if(k==good)b.classList.add("good");else if(k==j)b.classList.add("bad")});
+ document.getElementById("fb").innerHTML=`<div class="box"><b>${ok?"✅":"💭"}</b> ${msg}</div><button class="btn" onclick="go(cur.step+1)">${u().ct}</button>`}
+function pick(j){if(fb)return;fb=true;const l=x(cur.i),k=cur.o[j],s=cur.step;
+ if(s==1){const ok=k==1;if(ok&&!cur.d[1]){cur.st++}cur.d[1]=1;mark(j,cur.o.indexOf(1),ok?l[5]:u().nq+l[2],ok)}
+ else if(s==2){const ok=k==0;if(ok&&!cur.d[2]){cur.st++}cur.d[2]=1;mark(j,cur.o.indexOf(0),l[7][k][1],ok)}
+ else if(s==3){P.p[cur.i]=j;if(!cur.d[3]){cur.st++;cur.d[3]=1}P.s[cur.i]=Math.max(P.s[cur.i]||0,cur.st);sv();cur.step=4;view()}}
+const V={
+en:{tt:"Welcome to Sant to Skill",lg:"Log in",su:"Sign up",nm:"Your name",mb:"Mobile number (10 digits)",pw:"Password",p2:"Confirm password",ph:"Add profile photo",so:"Send OTP",ot:"Enter the 6-digit OTP",dm:"Demo OTP (a real SMS needs a server):",vf:"Verify & continue",rs:"Resend OTP in",rsn:"Resend OTP",lo:"Log out",sk:"day streak",ls:"Listen to verse + meaning",hi:"Hello",cp:"Change photo",ed:"Delete account",ec:"Delete this account and its progress?",eN:"Enter your name (2+ letters)",eM:"Enter a valid 10-digit mobile number",eP:"Password needs 8+ characters with letters and numbers",eQ:"Passwords do not match",eX:"This number is already registered. Please log in.",eU:"No account found. Please sign up.",eW:"Wrong password",eL:"Too many attempts. Try again in (seconds):",eT:"OTP expired. Request a new one.",eO:"Wrong OTP. Attempts left:",eC:"Secure login is not supported in this browser.",sn:"🔒 Passwords are salted and hashed (PBKDF2) on this device. This demo keeps data in your browser only.",sc:"Strength",sw:["Weak","Okay","Strong"],tp:"Tap to skip",ep:"Photo invalid or too large",bk:"← Back"},
+mr:{tt:"संत ते कौशल्य मध्ये स्वागत",lg:"लॉगिन",su:"नोंदणी",nm:"तुमचे नाव",mb:"मोबाईल क्रमांक (१० अंकी)",pw:"पासवर्ड",p2:"पासवर्ड पुन्हा लिहा",ph:"प्रोफाइल फोटो जोडा",so:"OTP पाठवा",ot:"६ अंकी OTP टाका",dm:"डेमो OTP (खऱ्या SMS साठी सर्व्हर लागतो):",vf:"पडताळा आणि पुढे जा",rs:"OTP पुन्हा पाठवा:",rsn:"OTP पुन्हा पाठवा",lo:"लॉग आउट",sk:"सलग दिवस",ls:"ओळी आणि अर्थ ऐका",hi:"नमस्कार",cp:"फोटो बदला",ed:"खाते हटवा",ec:"हे खाते आणि प्रगती हटवायची?",eN:"नाव लिहा (किमान २ अक्षरे)",eM:"वैध १० अंकी मोबाईल क्रमांक टाका",eP:"पासवर्ड किमान ८ अक्षरांचा, अक्षरे आणि अंक असलेला हवा",eQ:"पासवर्ड जुळत नाहीत",eX:"हा क्रमांक आधीच नोंदलेला आहे. कृपया लॉगिन करा.",eU:"खाते सापडले नाही. कृपया नोंदणी करा.",eW:"चुकीचा पासवर्ड",eL:"खूप प्रयत्न झाले. पुन्हा प्रयत्न करा (सेकंद):",eT:"OTP ची मुदत संपली. नवीन मागवा.",eO:"चुकीचा OTP. उरलेले प्रयत्न:",eC:"या ब्राउझरमध्ये सुरक्षित लॉगिन उपलब्ध नाही.",sn:"🔒 पासवर्ड या डिव्हाइसवर सॉल्ट व हॅश (PBKDF2) करून जतन होतात. हा डेमो डेटा फक्त तुमच्या ब्राउझरमध्ये ठेवतो.",sc:"ताकद",sw:["कमकुवत","ठीक","मजबूत"],tp:"वगळण्यासाठी टॅप करा",ep:"फोटो अवैध किंवा खूप मोठा",bk:"← परत"},
+hi:{tt:"संत से कौशल्य में आपका स्वागत है",lg:"लॉग इन",su:"साइन अप",nm:"आपका नाम",mb:"मोबाइल नंबर (10 अंक)",pw:"पासवर्ड",p2:"पासवर्ड दोबारा लिखें",ph:"प्रोफ़ाइल फ़ोटो जोड़ें",so:"OTP भेजें",ot:"6 अंकों का OTP दर्ज करें",dm:"डेमो OTP (असली SMS के लिए सर्वर चाहिए):",vf:"सत्यापित करें और आगे बढ़ें",rs:"OTP दोबारा भेजें:",rsn:"OTP दोबारा भेजें",lo:"लॉग आउट",sk:"लगातार दिन",ls:"पंक्तियाँ और अर्थ सुनें",hi:"नमस्ते",cp:"फ़ोटो बदलें",ed:"खाता हटाएँ",ec:"यह खाता और प्रगति हटाएँ?",eN:"नाम लिखें (कम से कम 2 अक्षर)",eM:"सही 10 अंकों का मोबाइल नंबर दर्ज करें",eP:"पासवर्ड कम से कम 8 अक्षरों का, अक्षर और अंक सहित हो",eQ:"पासवर्ड मेल नहीं खाते",eX:"यह नंबर पहले से पंजीकृत है। कृपया लॉग इन करें।",eU:"खाता नहीं मिला। कृपया साइन अप करें।",eW:"गलत पासवर्ड",eL:"बहुत प्रयास हो गए। फिर कोशिश करें (सेकंड):",eT:"OTP की समय-सीमा समाप्त। नया मँगाएँ।",eO:"गलत OTP। बचे प्रयास:",eC:"इस ब्राउज़र में सुरक्षित लॉगिन समर्थित नहीं है।",sn:"🔒 पासवर्ड इस डिवाइस पर सॉल्ट और हैश (PBKDF2) होकर सेव होते हैं। यह डेमो डेटा केवल आपके ब्राउज़र में रखता है।",sc:"मज़बूती",sw:["कमज़ोर","ठीक","मज़बूत"],tp:"छोड़ने के लिए टैप करें",ep:"फ़ोटो अमान्य या बहुत बड़ी",bk:"← वापस"}};
+const v=()=>V[G];
+const A={mode:"login",f:{},photo:null,pr:false};
+const EMB=`<svg width="60" height="56" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 3C39 14 46 19 41 29C39 34 35 35 32 35C29 35 25 34 23 29C19 20 28 16 32 3Z" fill="#ffd36b"/><path d="M5 40Q20 34 32 40V58Q20 52 5 58Z" fill="#fff" stroke="#ffd36b" stroke-width="2"/><path d="M59 40Q44 34 32 40V58Q44 52 59 58Z" fill="#ffe9a8" stroke="#ffd36b" stroke-width="2"/></svg>`;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>"&#"+c.charCodeAt(0)+";");
+const US=()=>{try{return JSON.parse(localStorage.getItem("s2s_u"))||{}}catch(e){return{}}};
+const SU=o=>{try{localStorage.setItem("s2s_u",JSON.stringify(o))}catch(e){}};
+const suser=()=>{const o=US();o[ME.m]=ME;SU(o)};
+const rb=n=>crypto.getRandomValues(new Uint8Array(n));
+const b64=a=>btoa(String.fromCharCode(...a));
+async function hp(pw,salt){const k=await crypto.subtle.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveBits"]);return b64(new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2",salt,iterations:150000,hash:"SHA-256"},k,256)))}
+const av=(p,n,c)=>p?`<img class="av ${c||""}" src="${p}" alt="">`:`<div class="av ${c||""}">${esc((n||"?")[0].toUpperCase())}</div>`;
+const gv=k=>{const e=document.getElementById("f-"+k);return e?e.value:""};
+const er=m=>{const e=document.getElementById("er");if(e)e.textContent=m};
+function keep(){["n","m","o"].forEach(k=>{const e=document.getElementById("f-"+k);if(e)A.f[k]=e.value})}
+const LG=[["en","English"],["mr","मराठी"],["hi","हिन्दी"]];
+function lp(){const i=LG.findIndex(l=>l[0]==G);return `<div class="lp"><button aria-label="Previous language" onclick="cyc(-1)">▲</button><div class="lw"><div class="li" style="transform:translateY(${-i*34}px)">${LG.map(l=>`<div>${l[1]}</div>`).join("")}</div></div><button aria-label="Next language" onclick="cyc(1)">▼</button></div>`}
+const lang=()=>`<div class="lr">${lp()}</div>`;
+function cyc(d){const i=(LG.findIndex(l=>l[0]==G)+d+3)%3,e=document.querySelector(".li");if(e)e.style.transform=`translateY(${-i*34}px)`;setTimeout(()=>setL(LG[i][0]),300)}
+function setL(l){keep();G=l;try{localStorage.setItem("s2sl",G)}catch(e){}document.documentElement.lang=l;ME?(A.pr?prof():cur?view():document.body.dataset.screen==="library"?library():map()):(A.mode=="otp"?otpv():auth())}
+function topbar(){const t=v();return `<div class="ub"><button class="who" onclick="prof()">${av(ME.photo,ME.n)}<span><b>${t.hi}, ${esc(ME.n.split(" ")[0])}</b><small>🔥 ${ME.streak||0} ${t.sk}</small></span></button>${lp()}</div>`}
+function speak(){if(cur)readVerse(cur.i)}
+let introDone=()=>{};
+function intro(cb){let d=0,tm;introDone=()=>{if(d)return;d=1;clearTimeout(tm);cb()};if(matchMedia("(prefers-reduced-motion: reduce)").matches)return introDone();
+ M.innerHTML=`<div class="stage" onclick="introDone()"><div class="book"><div class="pg"></div><div class="pg p2"></div><div class="cover">संत</div><div class="flm"></div></div><h1 class="it">Sant to Skill</h1><p class="it2">${v().tp}</p></div>`;window.scrollTo(0,0);tm=setTimeout(introDone,3800)}
+function eyeIcon(visible){return visible?`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c5.2 0 8.8 4.5 10 7-.5 1-1.4 2.2-2.7 3.3M6.2 6.2C3.9 7.7 2.5 9.7 2 12c1.2 2.5 4.8 7 10 7 1.2 0 2.3-.2 3.3-.6"/></svg>`:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>`}
+function passwordField(id,label,autocomplete){const ui=AUTH_UI[G],onInput=id==="p"?"sg(this)":"checkPasswordMatch()";return `<div class="password-field"><input class="in" id="f-${id}" type="password" autocomplete="${autocomplete}" placeholder="${label}" aria-label="${label}" oninput="${onInput}" onkeydown="capsState(event,'${id}')" onkeyup="capsState(event,'${id}')"><button class="password-toggle" id="toggle-${id}" type="button" aria-label="${ui.show}" aria-pressed="false" title="${ui.show}" onclick="togglePassword('${id}')">${eyeIcon(false)}</button></div>`}
+function togglePassword(id){const input=document.getElementById("f-"+id),button=document.getElementById("toggle-"+id);if(!input||!button)return;const visible=input.type==="password",ui=AUTH_UI[G],label=visible?ui.hide:ui.show;input.type=visible?"text":"password";button.setAttribute("aria-label",label);button.title=label;button.setAttribute("aria-pressed",String(visible));button.innerHTML=eyeIcon(visible);input.focus({preventScroll:true})}
+function capsState(event,id){const warning=document.getElementById("caps-"+id);if(!warning||typeof event.getModifierState!=="function")return;warning.textContent=AUTH_UI[G].caps;warning.classList.toggle("on",event.getModifierState("CapsLock"))}
+function checkPasswordMatch(){const password=gv("p"),confirmation=gv("q"),status=document.getElementById("match-q");if(!status)return;const ui=AUTH_UI[G];status.textContent=confirmation?(password===confirmation?ui.match:ui.mismatch):"";status.style.color=confirmation&&password===confirmation?"var(--ok)":"var(--mut)"}
+function auth(){document.body.dataset.screen="auth";A.pr=false;const t=v(),s=A.mode=="signup",f=A.f;
+ let h=lang()+`<div class="auth-intro"><span class="eyebrow">A journey of wisdom</span><h1>${t.tt}</h1><p>Discover timeless teachings. Build character, resilience and compassion—one mindful step at a time.</p></div><div class="app-shell"><div class="card"><div class="tabs"><button class="${!s?"on":""}" onclick="keep();A.mode='login';auth()">${t.lg}</button><button class="${s?"on":""}" onclick="keep();A.mode='signup';auth()">${t.su}</button></div>`;
+ if(s)h+=`<label class="avw" onclick="document.getElementById('pf').click()">${av(A.photo,f.n||"?")}<small>📷 ${t.ph}</small></label><input type="file" id="pf" accept="image/*" hidden onchange="ph(event)"><input class="in" id="f-n" maxlength="40" autocomplete="name" placeholder="${t.nm}" value="${esc(f.n||"")}">`;
+ h+=`<input class="in" id="f-m" type="tel" inputmode="numeric" maxlength="10" autocomplete="username" placeholder="${t.mb}" aria-label="${t.mb}" value="${esc(f.m||"")}">${passwordField("p",t.pw,s?"new-password":"current-password")}<small class="password-hint">${AUTH_UI[G].caseHint}</small><div id="caps-p" class="caps-warning" role="status"></div>`;
+ if(s)h+=`<ul class="password-rules" aria-label="${AUTH_UI[G].strong}"><li id="rule-length" data-valid="false">${AUTH_UI[G].length}</li><li id="rule-letter" data-valid="false">${AUTH_UI[G].letter}</li><li id="rule-number" data-valid="false">${AUTH_UI[G].number}</li></ul><div class="bar" role="progressbar" aria-label="${v().sc}" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0"><i id="sgb" style="width:0"></i></div><small id="sgt" class="password-hint" aria-live="polite"></small><div class="caps-warning" id="caps-q" role="status"></div>${passwordField("q",t.p2,"new-password")}<small id="match-q" class="password-hint" aria-live="polite"></small>`;
+ h+=`<div class="err" id="er" role="alert"></div><button class="btn auth-submit" onclick="${s?"sendOtp()":"doLogin()"}">${s?t.so:t.lg}</button><p class="sec">${t.sn}</p></div></div>`;
+ M.innerHTML=h;window.scrollTo(0,0) }
+function sg(e){const p=e.value,checks={length:p.length>=8,letter:/[a-zA-Z]/.test(p),number:/\d/.test(p)},score=Object.values(checks).filter(Boolean).length,ui=AUTH_UI[G],labels={length:ui.length,letter:ui.letter,number:ui.number};Object.keys(checks).forEach(key=>{const rule=document.getElementById("rule-"+key);if(rule)rule.dataset.valid=String(checks[key])});const bar=document.getElementById("sgb");if(bar){bar.style.width=(score/3*100)+"%";const progress=bar.parentElement;progress.setAttribute("aria-valuenow",String(score));document.getElementById("sgt").textContent=p?`${v().sc}: ${score===3?ui.strong:score===2?ui.medium:ui.weak}`:""}checkPasswordMatch()}
+function ph(ev){const f=ev.target.files[0];if(!f||!/^image\//.test(f.type)||f.size>8e6){er(v().ep);return}const im=new Image(),r=new FileReader();r.onload=()=>{im.onload=()=>{const c=document.createElement("canvas");c.width=c.height=160;const s=Math.min(im.width,im.height);c.getContext("2d").drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,160,160);const d=c.toDataURL("image/jpeg",.8);if(ME){ME.photo=d;suser();prof()}else{A.photo=d;keep();auth()}};im.onerror=()=>er(v().ep);im.src=r.result};r.readAsDataURL(f)}
+function sendOtp(){const t=v(),n=gv("n").trim(),m=gv("m").trim(),p=gv("p"),q=gv("q");
+ if(n.length<2)return er(t.eN);if(!/^[6-9]\d{9}$/.test(m))return er(t.eM);if(p.length<8||!/[a-zA-Z]/.test(p)||!/\d/.test(p))return er(t.eP);if(p!==q)return er(t.eQ);if(US()[m])return er(t.eX);if(!window.crypto||!crypto.subtle)return er(t.eC);
+ A.tmp={n,m,p};A.f={n,m};genOtp();A.mode="otp";otpv()}
+function genOtp(){A.otp=String(100000+crypto.getRandomValues(new Uint32Array(1))[0]%900000);A.exp=Date.now()+3e5;A.left=3;A.rs=Date.now()+3e4}
+function otpv(){document.body.dataset.screen="otp";const t=v();M.innerHTML=lang()+`<div class="card"><h2>📱 +91 ${esc(A.tmp.m)}</h2><div class="box"><small>${t.dm}</small><div class="otp">${A.otp}</div></div><p>${t.ot}</p><input class="in otpi" id="f-o" inputmode="numeric" maxlength="6" autocomplete="one-time-code" value="${esc(A.f.o||"")}"><div class="err" id="er"></div><button class="btn" onclick="chkOtp()">${t.vf}</button><button class="btn alt" id="rsb" onclick="genOtp();otpv()" disabled></button><button class="back" onclick="keep();A.mode='signup';auth()">${t.bk}</button></div>`;
+ clearInterval(A.iv);const tick=()=>{const b=document.getElementById("rsb");if(!b){clearInterval(A.iv);return}const s=Math.ceil((A.rs-Date.now())/1000);b.disabled=s>0;b.textContent=s>0?t.rs+" "+s+"s":t.rsn};tick();A.iv=setInterval(tick,1000);window.scrollTo(0,0)}
+async function chkOtp(){const t=v(),o=gv("o").trim();if(Date.now()>A.exp)return er(t.eT);
+ if(o!==A.otp){A.left--;if(A.left<=0){A.mode="signup";auth();er(t.eT);return}return er(t.eO+" "+A.left)}
+ const salt=rb(16),T=A.tmp,h=await hp(T.p,salt),u={n:T.n,m:T.m,salt:b64(salt),h,photo:A.photo,streak:0,last:"",fails:0,lock:0,ok:1,created:Date.now()};
+ const all=US();all[T.m]=u;SU(all);clearInterval(A.iv);A.tmp=null;A.photo=null;A.f={};A.otp=null;enter(u)}
+async function doLogin(){const t=v(),m=gv("m").trim(),p=gv("p");if(!/^[6-9]\d{9}$/.test(m))return er(t.eM);if(!p)return er(t.eP);if(!window.crypto||!crypto.subtle)return er(t.eC);
+ const all=US(),u=all[m];if(!u)return er(t.eU);const w=Math.ceil((u.lock-Date.now())/1000);if(w>0)return er(t.eL+" "+w);
+ const h=await hp(p,Uint8Array.from(atob(u.salt),c=>c.charCodeAt(0)));
+ if(h!==u.h){u.fails=(u.fails||0)+1;if(u.fails>=5)u.lock=Date.now()+6e4*Math.min(u.fails-4,10);all[m]=u;SU(all);return er(u.lock>Date.now()?t.eL+" "+Math.ceil((u.lock-Date.now())/1000):t.eW)}
+ u.fails=0;u.lock=0;all[m]=u;SU(all);enter(u)}
+function enter(u){ME=u;try{localStorage.setItem("s2s_sess",JSON.stringify({m:u.m,exp:Date.now()+864e5}))}catch(e){}lpr();const d=new Date().toDateString(),y=new Date(Date.now()-864e5).toDateString();if(ME.last!==d){ME.streak=ME.last===y?(ME.streak||0)+1:1;ME.last=d;suser()}A.pr=false;intro(map)}
+function boot(){try{const s=JSON.parse(localStorage.getItem("s2s_sess")),u=s&&s.exp>Date.now()&&US()[s.m];if(u)return enter(u)}catch(e){}auth()}
+function logout(){try{localStorage.removeItem("s2s_sess")}catch(e){}ME=null;cur=null;A.mode="login";A.f={};P={s:{},p:{}};auth()}
+function delAcc(){if(!confirm(v().ec))return;const o=US();delete o[ME.m];SU(o);try{localStorage.removeItem(pk())}catch(e){}logout()}
+function prof(){document.body.dataset.screen="profile";A.pr=true;cur=null;const t=v();M.innerHTML=lang()+`<button class="back" onclick="A.pr=false;map()">${t.bk}</button><div class="card" style="text-align:center">${av(ME.photo,ME.n,"big")}<input type="file" id="pf" accept="image/*" hidden onchange="ph(event)"><button class="btn alt" onclick="document.getElementById('pf').click()">📷 ${t.cp}</button><h2>${esc(ME.n)}</h2><p style="color:var(--mut)">📱 +91 ${ME.m.slice(0,2)}••••••${ME.m.slice(-2)} ✅</p><p>🔥 ${ME.streak||0} ${t.sk} · ⭐ ${total()}/${D.length*3}</p><button class="btn" onclick="logout()">${t.lo}</button><button class="btn alt" style="color:var(--bad)" onclick="delAcc()">${t.ed}</button></div>`;window.scrollTo(0,0)}
+document.documentElement.lang=G;boot();
+</script><button class="ins" id="ins"></button>
+<script>
+if("serviceWorker"in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
+let dp=null;const IN={en:"📲 Install app",mr:"📲 अ‍ॅप इंस्टॉल करा",hi:"📲 ऐप इंस्टॉल करें"};
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();dp=e;const b=document.getElementById("ins");b.textContent=IN[G]||IN.en;b.style.display="block"});
+document.getElementById("ins").onclick=async()=>{if(!dp)return;dp.prompt();await dp.userChoice;dp=null;document.getElementById("ins").style.display="none"};
+addEventListener("appinstalled",()=>{document.getElementById("ins").style.display="none"});
+</script>
+</body></html>
