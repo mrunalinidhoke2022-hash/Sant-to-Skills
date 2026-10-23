@@ -3,13 +3,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sant to Skill – Level Quest</title>
 <style>
- :root{--bg:#edf4ff;--bg-strong:#dfeaff;--card:rgba(255,255,255,.92);--card-strong:#ffffff;--ink:#13233d;--mut:#5f6e87;--pri:#ff9f43;--pri2:#2b4ed8;--pri-soft:#edf2ff;--ok:#1ab87a;--bad:#df4f5e;--line:#dfe6f5;--shadow:0 18px 45px rgba(30,64,175,.12);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+ :root{--bg:#fff8ec;--bg-strong:#f3ead7;--card:#fffdf8;--card-strong:#ffffff;--ink:#17233b;--mut:#4b5a72;--pri:#f08a1c;--pri2:#174a91;--pri-soft:#eaf1fb;--ok:#08784f;--bad:#b42335;--line:#d8e0ed;--shadow:0 18px 45px rgba(23,54,100,.12);--glow-warm:rgba(245,151,43,.16);--glow-cool:rgba(53,153,193,.12);--top-glow:rgba(23,74,145,.09);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d172e;--bg-strong:#141f3d;--card:rgba(18,27,47,.88);--card-strong:#17233f;--ink:#edf3ff;--mut:#a7b7d5;--pri:#ffb454;--pri2:#8fa9ff;--pri-soft:rgba(143,169,255,.12);--ok:#40d392;--bad:#ff7d8e;--line:#243455;--shadow:0 20px 48px rgba(15,23,42,.4)}}
-:root[data-theme="dark"]{--bg:#0d172e;--bg-strong:#141f3d;--card:rgba(18,27,47,.88);--card-strong:#17233f;--ink:#edf3ff;--mut:#a7b7d5;--pri:#ffb454;--pri2:#8fa9ff;--pri-soft:rgba(143,169,255,.12);--ok:#40d392;--bad:#ff7d8e;--line:#243455;--shadow:0 20px 48px rgba(15,23,42,.4)}
+:root[data-theme="dark"]{--bg:#0d172e;--bg-strong:#141f3d;--card:rgba(18,27,47,.88);--card-strong:#17233f;--ink:#edf3ff;--mut:#c0cbe0;--pri:#ffb454;--pri2:#a9beff;--pri-soft:rgba(143,169,255,.16);--ok:#40d392;--bad:#ff8796;--line:#354461;--shadow:0 20px 48px rgba(15,23,42,.4);--glow-warm:rgba(245,151,43,.11);--glow-cool:rgba(53,153,193,.09);--top-glow:rgba(23,74,145,.12)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#eff5ff 0%,#eaf0ff 20%,var(--bg) 60%,var(--bg-strong) 100%);color:var(--ink);font:16px/1.55 Inter,"Segoe UI",system-ui,-apple-system,sans-serif;position:relative}
-body::before{content:"";position:absolute;inset:0 0 auto 0;height:260px;background:linear-gradient(180deg,#1a2f6f 0%,#2647a3 30%,rgba(38,71,163,0) 100%);z-index:0;pointer-events:none}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at 8% 8%,var(--glow-warm),transparent 34%),radial-gradient(circle at 92% 20%,var(--glow-cool),transparent 38%),linear-gradient(145deg,var(--bg),var(--bg-strong));color:var(--ink);font:16px/1.55 Inter,"Segoe UI",system-ui,-apple-system,sans-serif;position:relative}
+body::before{content:"";position:absolute;inset:0 0 auto 0;height:260px;background:linear-gradient(180deg,var(--top-glow),transparent);z-index:0;pointer-events:none}
 #main{position:relative;z-index:1}
 .wrap{max-width:760px;margin:0 auto;padding:18px 16px 120px;position:relative;z-index:1}
 button,input{font:inherit}
@@ -103,7 +103,7 @@ h2{font-size:1.2rem;line-height:1.3;margin:.3em 0}
 .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .badge{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;border:1px solid rgba(43,78,216,.12);background:rgba(255,255,255,.7);font-size:.76rem;font-weight:700}
 .lesson-shell{padding:18px;margin-top:14px;display:grid;gap:12px}
-.lesson-hero{background:linear-gradient(135deg,#ecf2ff 0%,#fef5ea 100%);border:1px solid rgba(43,78,216,.06);border-radius:20px;padding:16px}
+.lesson-hero{background:linear-gradient(135deg,var(--card-strong),var(--card));border:1px solid var(--line);border-radius:20px;padding:16px}
 .lesson-hero h2{margin:8px 0 0;font-size:1.45rem}
 .lesson-hero p{margin:8px 0 0;color:var(--mut);font-weight:600}
 .lesson-cta{margin-top:4px}
@@ -202,24 +202,22 @@ button:focus-visible,input:focus-visible{outline:3px solid #3159cf;outline-offse
 .lp{background:var(--card-strong);border-color:#9eabc2}
 .lp button{color:#183dba}
 .password-toggle{color:#344563}
-@media(prefers-color-scheme:dark){
- .pill,.tag{color:#e5ebff;background:#263b70}
- .steps span{background:#263653;color:#edf3ff}
- .steps .on{background:#ffc06a;color:#291800}
- .vl{background:#202c45}
- .box,.status-box{color:#edf3ff;background:#202d49;border-color:#405274}
- .password-hint,.password-rules,.sec,.foot,.lv small,.lesson-copy p,.library-intro,.status-box p{color:#d0dbef}
- .in::placeholder{color:#c3cfe3;opacity:1}
- .lv[disabled]{background:#202a3e;color:#d7e0f0}
- .lv[disabled] small,.lv[disabled] .st{color:#c3cfe3}
- .badge{color:#e7edff;background:#202d49;border-color:#536583}
- .speech-status{color:#eef3ff;background:#243656}
- .btn.alt,.secondary-action{background:#16223b;color:#f0f4ff;border-color:#7183a2}
- .lp{background:#17233f;border-color:#657798}
- .lp button{color:#c6d4ff}
- .password-toggle{color:#d7e0f0}
- .err{color:#ff9aa8}
-}
+:root[data-theme="dark"] .pill,:root[data-theme="dark"] .tag{color:#e5ebff;background:#263b70}
+:root[data-theme="dark"] .steps span{background:#263653;color:#edf3ff}
+:root[data-theme="dark"] .steps .on{background:#ffc06a;color:#291800}
+:root[data-theme="dark"] .vl{background:#202c45}
+:root[data-theme="dark"] .box,:root[data-theme="dark"] .status-box{color:#edf3ff;background:#202d49;border-color:#405274}
+:root[data-theme="dark"] .password-hint,:root[data-theme="dark"] .password-rules,:root[data-theme="dark"] .sec,:root[data-theme="dark"] .foot,:root[data-theme="dark"] .lv small,:root[data-theme="dark"] .lesson-copy p,:root[data-theme="dark"] .library-intro,:root[data-theme="dark"] .status-box p{color:#d0dbef}
+:root[data-theme="dark"] .in::placeholder{color:#c3cfe3;opacity:1}
+:root[data-theme="dark"] .lv[disabled]{background:#202a3e;color:#d7e0f0}
+:root[data-theme="dark"] .lv[disabled] small,:root[data-theme="dark"] .lv[disabled] .st{color:#c3cfe3}
+:root[data-theme="dark"] .badge{color:#e7edff;background:#202d49;border-color:#536583}
+:root[data-theme="dark"] .speech-status{color:#eef3ff;background:#243656}
+:root[data-theme="dark"] .btn.alt,:root[data-theme="dark"] .secondary-action{background:#16223b;color:#f0f4ff;border-color:#7183a2}
+:root[data-theme="dark"] .lp{background:#17233f;border-color:#657798}
+:root[data-theme="dark"] .lp button{color:#c6d4ff}
+:root[data-theme="dark"] .password-toggle{color:#d7e0f0}
+:root[data-theme="dark"] .err{color:#ff9aa8}
 @media(min-width:701px){.wrap{max-width:820px}.auth-intro{padding-top:22px}.auth-intro p{max-width:640px}}
 @media(max-width:700px){.stat-card small,.stat-card span{font-size:.92rem}.steps{flex-wrap:wrap}.steps span{min-width:68px}.hero-panel,.dashboard-card,.card,.library-level{padding:16px}.foot{font-size:.9rem}body[data-screen="auth"] .scene-art,body[data-screen="home"] .scene-art,body[data-screen="library"] .scene-art{opacity:.12}}
 .password-field{position:relative;margin:8px 0}
@@ -236,7 +234,7 @@ button:focus-visible,input:focus-visible{outline:3px solid #3159cf;outline-offse
 .password-rules li[data-valid="true"]{color:var(--ok);font-weight:700}
 .password-rules li[data-valid="true"]::before{content:"✓"}
 .auth-submit{margin-top:14px}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .verse-pair{background:var(--bg-strong)}}
+:root[data-theme="dark"] .verse-pair{background:var(--bg-strong)}
 @media(max-width:620px){.verse-pair .verse-text{font-size:1.16rem}.library-level{padding:13px}.library-tab{padding:8px 12px}}
 @media(max-width:700px){.scene-bg{opacity:.34}.scene-art{width:min(88vw,430px);right:-25vw;top:14vh;opacity:.35}body[data-screen="auth"] .scene-bg{opacity:.68}body[data-screen="auth"] .scene-art{width:min(88vw,430px);right:-24vw;top:10vh;opacity:.5}body[data-screen="home"] .scene-bg{opacity:.68}body[data-screen="home"] .scene-art{width:min(76vw,360px);right:-28vw;top:10vh;opacity:.48}.auth-intro{padding:12px 6px 4px}}
 @media(prefers-reduced-motion:reduce){.scene-art,.scene-art .saint-body,.scene-art .halo,.scene-art .floating-book,.scene-art .sparkle,.scene-glow{animation:none!important}}
@@ -257,13 +255,52 @@ body[data-screen="auth"] .scene-glow,body[data-screen="home"] .scene-glow,body[d
 .password-rules{font-size:.92rem}
 body[data-screen="auth"] .sec{color:#26354e;font-size:.95rem;line-height:1.65}
 .foot,.lv small,.lesson-copy p,.library-intro,.status-box p{color:#3f4e68}
-@media(prefers-color-scheme:dark){
- :root:not([data-theme="light"]) .password-hint,:root:not([data-theme="light"]) .password-rules,:root:not([data-theme="light"]) .sec,:root:not([data-theme="light"]) .foot,:root:not([data-theme="light"]) .lv small,:root:not([data-theme="light"]) .lesson-copy p,:root:not([data-theme="light"]) .library-intro,:root:not([data-theme="light"]) .status-box p{color:#d0dbef}
- :root:not([data-theme="light"]) body[data-screen="auth"] .sec{color:#d0dbef}
- :root:not([data-theme="light"]) .lv{background:linear-gradient(180deg,#1b2944,#17233f);color:#edf3ff}
- :root:not([data-theme="light"]) .lesson-card.locked{opacity:1;background:#202a3e;color:#edf3ff}
-}
+:root[data-theme="dark"] .password-hint,:root[data-theme="dark"] .password-rules,:root[data-theme="dark"] .sec,:root[data-theme="dark"] .foot,:root[data-theme="dark"] .lv small,:root[data-theme="dark"] .lesson-copy p,:root[data-theme="dark"] .library-intro,:root[data-theme="dark"] .status-box p{color:#d0dbef}
+:root[data-theme="dark"] body[data-screen="auth"] .sec{color:#d0dbef}
+:root[data-theme="dark"] .lv{background:linear-gradient(180deg,#1b2944,#17233f);color:#edf3ff}
+:root[data-theme="dark"] .lesson-card.locked{opacity:1;background:#202a3e;color:#edf3ff}
 @media(max-width:700px){body[data-screen="auth"] .scene-bg,body[data-screen="home"] .scene-bg,body[data-screen="library"] .scene-bg,body[data-screen="lesson"] .scene-bg,body[data-screen="profile"] .scene-bg,body[data-screen="otp"] .scene-bg{opacity:.12}body[data-screen="auth"] .scene-art,body[data-screen="home"] .scene-art,body[data-screen="library"] .scene-art,body[data-screen="lesson"] .scene-art,body[data-screen="profile"] .scene-art,body[data-screen="otp"] .scene-art{opacity:.1}}
+:root[data-theme="light"]{color-scheme:light}
+:root[data-theme="dark"]{color-scheme:dark}
+:root[data-theme="custom"]{color-scheme:light dark}
+.hero-panel h2{color:#fff}
+.lesson-hero h2,.dashboard-card h2,.library-level h3,.lesson-copy h3,.status-box strong,.vl .mr,.vl .en,.meaning-text,.verse-text{color:var(--ink)}
+.lesson-hero p,.foot,.lv small,.lesson-copy p,.library-intro,.status-box p,.password-hint,.password-rules,.sec{color:var(--mut)}
+.pill,.tag{color:var(--pri2);background:var(--pri-soft)}
+.library-tab[aria-selected="true"]{background:var(--pri2);border-color:var(--pri2);color:var(--selected-text,#fff)}
+.steps span{background:var(--card);color:var(--ink)}
+.steps .on{background:var(--pri);color:#241704}
+.lv{background:var(--card-strong);color:var(--ink)}
+.lv[disabled]{background:var(--card);color:var(--ink)}
+.lv[disabled] small,.lv[disabled] .st{color:var(--mut)}
+.lesson-card.locked{background:var(--card);color:var(--ink)}
+.vl{background:var(--card);border-color:var(--pri)}
+.box,.status-box{background:var(--card);color:var(--ink);border-color:var(--line)}
+.badge{background:var(--card);color:var(--ink);border-color:var(--line)}
+.speech-status{background:var(--pri-soft);color:var(--ink)}
+.btn.alt,.secondary-action{background:var(--card-strong);color:var(--ink);border-color:var(--line)}
+.in{background:var(--card-strong);color:var(--ink)}
+.in::placeholder{color:var(--mut);opacity:1}
+.back,.lp button,.password-toggle{color:var(--pri2)}
+.lp{background:var(--card-strong);border-color:var(--line)}
+.verse-pair{background:var(--card);color:var(--ink)}
+.verse-pair .verse-text,.verse-pair .meaning-text{color:var(--ink)}
+.appearance{position:relative;z-index:10}
+.appearance summary{display:flex;align-items:center;justify-content:center;gap:6px;min-height:42px;padding:7px 11px;border:1px solid var(--line);border-radius:14px;background:var(--card-strong);color:var(--ink);font-size:.88rem;font-weight:800;cursor:pointer;list-style:none;white-space:nowrap}
+.appearance summary::-webkit-details-marker{display:none}
+.appearance-panel{position:absolute;top:calc(100% + 8px);right:0;width:min(320px,calc(100vw - 24px));padding:14px;border:1px solid var(--line);border-radius:18px;background:var(--card-strong);color:var(--ink);box-shadow:var(--shadow)}
+.appearance-title{margin:0 0 8px;font-size:.92rem}
+.theme-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.theme-mode{min-height:44px;padding:7px 5px;border:1px solid var(--line);border-radius:11px;background:var(--card);color:var(--ink);font:inherit;font-size:.85rem;font-weight:700;cursor:pointer}
+.theme-mode[aria-pressed="true"]{border-color:var(--pri2);background:var(--pri-soft);color:var(--pri2);box-shadow:inset 0 0 0 1px var(--pri2)}
+.custom-colors{display:grid;gap:10px;margin-top:12px}
+.custom-colors[hidden]{display:none}
+.custom-colors label{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:.9rem;font-weight:700}
+.custom-colors input[type="color"]{width:48px;height:40px;padding:3px;border:1px solid var(--line);border-radius:10px;background:var(--card);cursor:pointer}
+.theme-help{margin:10px 0 0;color:var(--mut);font-size:.8rem;line-height:1.45}
+.top-controls{display:flex;align-items:flex-start;justify-content:flex-end;gap:8px;min-width:0}
+.lr{justify-content:flex-end}
+@media(max-width:390px){.appearance summary{width:42px;padding:5px;font-size:0}.appearance summary span{font-size:1.1rem}.appearance-panel{width:min(300px,calc(100vw - 24px))}.top-controls{gap:6px}}
 </style><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1b3f8f"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Sant2Skill"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2"><link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png?v=2"><link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2">
 <style>.ins{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:50;border:0;border-radius:30px;padding:12px 18px;font:inherit;font-weight:700;background:#f08a1c;color:#1d1400;box-shadow:0 6px 18px rgba(0,0,0,.3);cursor:pointer;display:none}</style>
 </head><body>
@@ -311,6 +348,40 @@ mr:{ti:"संत ते कौशल्य: लेव्हल क्वेस�
 hi:{ti:"संत से कौशल्य: लेवल क्वेस्ट",sub:"पंक्तियाँ पढ़ें। अर्थ समझें। परखें। जीवन में उतारें।",lv:"लेवल",dn:"पूरे हुए लेवल",ty:["अभंग","श्लोक","ओवी"],sa:["संत तुकाराम","समर्थ रामदास","संत ज्ञानेश्वर (पसायदान)"],st:["📖 पढ़ें","🧠 समझें","🌍 लागू करें","✅ संकल्प"],go:"मैं समझ गया → क्विज़ शुरू करें",bk:"← लेवल",sw:"💡 आसान शब्दों में:",nq:"पूरी तरह सही नहीं। फिर से पढ़ें: ",rl:"🌍 रोज़मर्रा का प्रसंग",pl:"✅ आपका संकल्प",pp:"रोज़ की ज़िंदगी में अभ्यास के लिए एक कर्म चुनें:",ct:"आगे ➜",done:"पूरा!",un:"आत्मसात हुआ। यह सीख अब आपके दिन में उतर गई।",nx:"अगला लेवल ➜",bl:"लेवल पर वापस",rs:"मेरा परिणाम देखें ➜",ti2:["संत-प्रेरित नेता","ज्ञान के रक्षक","बढ़ता विद्यार्थी"],ea:"आपने कमाए",of:"में से",stars:"सितारे।",plan:"🗓 मेरी रोज़ की योजना",rst:"प्रगति रीसेट करें",cf:"सारी प्रगति रीसेट करें?",ft:"प्राचीन ज्ञान → आधुनिक जीवन-कौशल → बदले हुए विद्यार्थी"}};
 let P={s:{},p:{}},G="en",ME=null;
 try{G=localStorage.getItem("s2sl")||"en"}catch(e){}
+const APPEARANCE={
+ en:{label:"Theme",title:"Appearance",light:"Light",dark:"Dark",custom:"Custom",background:"Background",accent:"Accent",help:"Text and cards automatically adjust for strong contrast."},
+ mr:{label:"थीम",title:"दिसण्याची पद्धत",light:"उजळ",dark:"गडद",custom:"कस्टम",background:"पार्श्वभूमी",accent:"अॅक्सेंट",help:"मजकूर स्पष्ट दिसण्यासाठी रंग आपोआप जुळवले जातात."},
+ hi:{label:"थीम",title:"दिखावट",light:"लाइट",dark:"डार्क",custom:"कस्टम",background:"पृष्ठभूमि",accent:"एक्सेंट",help:"पाठ को स्पष्ट रखने के लिए रंग अपने-आप समायोजित होते हैं."}
+};
+let themeMode="light",themeBackground="#fff5e2",themeAccent="#174a91";
+try{const saved=JSON.parse(localStorage.getItem("s2s_theme")||"{}");if(["light","dark","custom"].includes(saved.mode))themeMode=saved.mode;if(/^#[0-9a-f]{6}$/i.test(saved.background||""))themeBackground=saved.background;if(/^#[0-9a-f]{6}$/i.test(saved.accent||""))themeAccent=saved.accent}catch(e){}
+const themeRoot=document.documentElement;
+function themeRgb(color){return color.match(/[0-9a-f]{2}/gi).map(part=>parseInt(part,16))}
+function themeHex(rgb){return "#"+rgb.map(channel=>Math.round(Math.max(0,Math.min(255,channel))).toString(16).padStart(2,"0")).join("")}
+function themeMix(first,second,amount){const a=themeRgb(first),b=themeRgb(second);return themeHex(a.map((channel,index)=>channel+(b[index]-channel)*amount))}
+function themeLuminance(color){return themeRgb(color).map(channel=>channel/255).map(channel=>channel<=.04045?channel/12.92:((channel+.055)/1.055)**2.4).reduce((sum,channel,index)=>sum+channel*[.2126,.7152,.0722][index],0)}
+function themeContrast(first,second){const values=[themeLuminance(first),themeLuminance(second)].sort((a,b)=>b-a);return(values[0]+.05)/(values[1]+.05)}
+function themeText(color){return themeContrast(color,"#111827")>=themeContrast(color,"#ffffff")?"#111827":"#ffffff"}
+function accessibleAccent(color,surface){const target=themeContrast("#111827",surface)>=themeContrast("#ffffff",surface)?"#111827":"#ffffff";let result=color,amount=.05;while(themeContrast(result,surface)<4.5&&amount<=1){result=themeMix(color,target,amount);amount+=.05}return result}
+function saveTheme(){try{localStorage.setItem("s2s_theme",JSON.stringify({mode:themeMode,background:themeBackground,accent:themeAccent}))}catch(e){}}
+function applyTheme(){
+ themeRoot.dataset.theme=themeMode;
+ const properties=["--bg","--bg-strong","--card","--card-strong","--ink","--mut","--pri","--pri2","--pri-soft","--ok","--bad","--line","--shadow","--glow-warm","--glow-cool","--top-glow","--selected-text"];
+ properties.forEach(property=>themeRoot.style.removeProperty(property));
+ if(themeMode==="custom"){
+  const isDark=themeLuminance(themeBackground)<.28,card=isDark?themeMix(themeBackground,"#ffffff",.12):themeMix(themeBackground,"#ffffff",.9),cardStrong=isDark?themeMix(themeBackground,"#ffffff",.18):themeMix(themeBackground,"#ffffff",.97),ink=themeText(cardStrong),accent=accessibleAccent(themeAccent,cardStrong);
+  const values={"--bg":themeBackground,"--bg-strong":themeMix(themeBackground,isDark?"#ffffff":"#000000",.1),"--card":card,"--card-strong":cardStrong,"--ink":ink,"--mut":themeMix(ink,cardStrong,isDark ? .24 : .34),"--pri":"#f08a1c","--pri2":accent,"--pri-soft":themeMix(accent,cardStrong,.96),"--ok":isDark?"#53d6a0":"#08784f","--bad":isDark?"#ff8796":"#b42335","--line":themeMix(ink,cardStrong,.18),"--shadow":isDark?"0 20px 48px rgba(0,0,0,.38)":"0 18px 45px rgba(23,54,100,.14)","--glow-warm":isDark?"rgba(245,151,43,.1)":"rgba(245,151,43,.16)","--glow-cool":isDark?"rgba(53,153,193,.08)":"rgba(53,153,193,.12)","--top-glow":isDark?"rgba(23,74,145,.12)":"rgba(23,74,145,.08)","--selected-text":themeText(accent)};
+  Object.entries(values).forEach(([property,value])=>themeRoot.style.setProperty(property,value));
+  themeRoot.style.colorScheme=isDark?"dark":"light";
+ }else themeRoot.style.removeProperty("color-scheme");
+ const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.content=themeMode==="dark"?"#0d172e":themeMode==="custom"?themeBackground:"#fff8ec";
+ syncThemeControl();
+}
+function setTheme(mode){if(!["light","dark","custom"].includes(mode))return;themeMode=mode;applyTheme();saveTheme()}
+function setThemeColor(kind,value){if(!/^#[0-9a-f]{6}$/i.test(value))return;if(kind==="background")themeBackground=value;else if(kind==="accent")themeAccent=value;else return;themeMode="custom";applyTheme();saveTheme()}
+function syncThemeControl(){const ui=APPEARANCE[G];document.querySelectorAll("[data-theme-mode]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.themeMode===themeMode)));const custom=document.getElementById("custom-colors");if(custom)custom.hidden=themeMode!=="custom";const bg=document.getElementById("theme-background"),accent=document.getElementById("theme-accent");if(bg)bg.value=themeBackground;if(accent)accent.value=themeAccent;const label=document.getElementById("appearance-label");if(label)label.textContent=ui.label;const title=document.getElementById("appearance-title");if(title)title.textContent=ui.title;const help=document.getElementById("theme-help");if(help)help.textContent=ui.help;const names={light:ui.light,dark:ui.dark,custom:ui.custom};document.querySelectorAll("[data-theme-mode]").forEach(button=>{button.textContent=names[button.dataset.themeMode];button.setAttribute("aria-label",names[button.dataset.themeMode])});const bgLabel=document.getElementById("background-label"),accentLabel=document.getElementById("accent-label");if(bgLabel)bgLabel.textContent=ui.background;if(accentLabel)accentLabel.textContent=ui.accent}
+function themeControl(){const ui=APPEARANCE[G];return `<details class="appearance"><summary aria-label="${ui.title}" title="${ui.title}"><span aria-hidden="true">🎨</span><span id="appearance-label">${ui.label}</span></summary><div class="appearance-panel"><h2 class="appearance-title" id="appearance-title">${ui.title}</h2><div class="theme-modes"><button class="theme-mode" type="button" data-theme-mode="light" aria-pressed="${themeMode==="light"}" onclick="setTheme('light')">${ui.light}</button><button class="theme-mode" type="button" data-theme-mode="dark" aria-pressed="${themeMode==="dark"}" onclick="setTheme('dark')">${ui.dark}</button><button class="theme-mode" type="button" data-theme-mode="custom" aria-pressed="${themeMode==="custom"}" onclick="setTheme('custom')">${ui.custom}</button></div><div class="custom-colors" id="custom-colors" ${themeMode==="custom"?"":"hidden"}><label><span id="background-label">${ui.background}</span><input id="theme-background" type="color" value="${themeBackground}" aria-label="${ui.background}" oninput="setThemeColor('background',this.value)"></label><label><span id="accent-label">${ui.accent}</span><input id="theme-accent" type="color" value="${themeAccent}" aria-label="${ui.accent}" oninput="setThemeColor('accent',this.value)"></label></div><p class="theme-help" id="theme-help">${ui.help}</p></div></details>`}
+applyTheme();
 const pk=()=>"s2s3_"+ME.m;
 const lpr=()=>{try{P=JSON.parse(localStorage.getItem(pk()))||{s:{},p:{}}}catch(e){P={s:{},p:{}}}};
 const sv=()=>{if(!ME)return;try{localStorage.setItem(pk(),JSON.stringify(P))}catch(e){}};
@@ -401,10 +472,10 @@ const er=m=>{const e=document.getElementById("er");if(e)e.textContent=m};
 function keep(){["n","m","o"].forEach(k=>{const e=document.getElementById("f-"+k);if(e)A.f[k]=e.value})}
 const LG=[["en","English"],["mr","मराठी"],["hi","हिन्दी"]];
 function lp(){const i=LG.findIndex(l=>l[0]==G);return `<div class="lp"><button aria-label="Previous language" onclick="cyc(-1)">▲</button><div class="lw"><div class="li" style="transform:translateY(${-i*34}px)">${LG.map(l=>`<div>${l[1]}</div>`).join("")}</div></div><button aria-label="Next language" onclick="cyc(1)">▼</button></div>`}
-const lang=()=>`<div class="lr">${lp()}</div>`;
+const lang=()=>`<div class="lr"><div class="top-controls">${themeControl()}${lp()}</div></div>`;
 function cyc(d){const i=(LG.findIndex(l=>l[0]==G)+d+3)%3,e=document.querySelector(".li");if(e)e.style.transform=`translateY(${-i*34}px)`;setTimeout(()=>setL(LG[i][0]),300)}
 function setL(l){keep();G=l;try{localStorage.setItem("s2sl",G)}catch(e){}document.documentElement.lang=l;ME?(A.pr?prof():cur?view():document.body.dataset.screen==="library"?library():map()):(A.mode=="otp"?otpv():auth())}
-function topbar(){const t=v();return `<div class="ub"><button class="who" onclick="prof()">${av(ME.photo,ME.n)}<span><b>${t.hi}, ${esc(ME.n.split(" ")[0])}</b><small>🔥 ${ME.streak||0} ${t.sk}</small></span></button>${lp()}</div>`}
+function topbar(){const t=v();return `<div class="ub"><button class="who" onclick="prof()">${av(ME.photo,ME.n)}<span><b>${t.hi}, ${esc(ME.n.split(" ")[0])}</b><small>🔥 ${ME.streak||0} ${t.sk}</small></span></button><div class="top-controls">${themeControl()}${lp()}</div></div>`}
 function speak(){if(cur)readVerse(cur.i)}
 let introDone=()=>{};
 function intro(cb){let d=0,tm;introDone=()=>{if(d)return;d=1;clearTimeout(tm);cb()};if(matchMedia("(prefers-reduced-motion: reduce)").matches)return introDone();
