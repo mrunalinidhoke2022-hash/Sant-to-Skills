@@ -17,6 +17,9 @@ It then opens full-screen like an app, with its own icon, and works offline.
 
 ## Verse library and read-aloud
 - The library currently organizes the six starter examples for Sant Tukaram, Samarth Ramdas (Manache Shlok), and Sant Dnyaneshwar into Sant and composition tabs with levels.
+- A separate **Manache Shlok** section includes all 205 numbered Marathi stanzas from the text supplied for this app, grouped into eleven sections (1–20 through 181–200, plus 201–205). Select a section to browse its numbered verses, apply reflection-theme filters, move between verses, or play the selected section aloud. The supplied text's edition and spelling have not been independently verified.
+- Each Shlok includes a brief app-authored Marathi and English explanation. These are paraphrases, not literal or authoritative translations. The original stanza is shown before both meanings when read aloud.
+- The reader includes an original animated cat mascot. Browser/device speech reads the verse and both explanations aloud; it does not sing and does not use an AI voice service.
 - Tap a verse line to read it and its meaning aloud using the browser/device speech engine. Available Marathi, English, or Hindi voices depend on the device; install a Marathi speech voice in device settings if needed.
 - The **Listen** section provides a spoken playlist with play, pause, next, previous, and stop controls. It reads the original verse with the device voice; these are not sung or recorded music tracks. Some browsers pause speech in the background or when the screen locks. Smartwatch support is limited and should not be assumed.
 - This starter collection is not the complete works of these Sants. Add and verify verses against a chosen source/edition before publishing a larger collection.
