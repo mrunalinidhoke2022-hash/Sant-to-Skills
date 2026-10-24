@@ -1,7 +1,7 @@
 import { cpSync, mkdirSync, rmSync } from "node:fs";
 
 const output = "dist";
-const files = ["index.html", "manifest.webmanifest", "sw.js", "icons"];
+const files = ["index.html", "manifest.webmanifest", "sw.js", "manache-shlok.json", "manache-shlok-meanings.json", "icons"];
 
 rmSync(output, { recursive: true, force: true });
 mkdirSync(output, { recursive: true });
